@@ -1,0 +1,7 @@
+{
+  "name": "foro",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
