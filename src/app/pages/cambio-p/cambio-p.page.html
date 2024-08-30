@@ -1,20 +1,20 @@
 <ion-header [translucent]="true">
   <ion-back-button defaultHref="/configuracion" class="custom-back-button"></ion-back-button>
   <ion-toolbar>
-    <ion-title class="title" >iniciar sesion</ion-title>
+    <ion-title class="title" >Cambiar Contraseña </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
   <div id="container">
     <strong>
       <ion-item>
-        <ion-input label="Correo" type="email" placeholder="email@domain.com"></ion-input>
+        <ion-input label="contraseña actual" type="password" value=""></ion-input>
       </ion-item>
     </strong>
     <ion-item>
-      <ion-input label="contraseña" type="password" value=""></ion-input>
+      <ion-input label="nueva contraseña " type="password" value=""></ion-input>
     </ion-item>
   </div>
-  <ion-button class="ion-padding" [routerLink]="['/home']">Iniciar sesion</ion-button>
+  <ion-button class="ion-padding" [routerLink]="['/home']">Actualizar</ion-button>
 </ion-content>
 

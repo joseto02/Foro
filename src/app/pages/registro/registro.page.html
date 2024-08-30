@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-back-button defaultHref="/configuracion" class="custom-back-button"></ion-back-button>
+  <ion-toolbar>
+    <ion-title class="title" >Registrate en GamerNest </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-list class="Register">
+      <ion-item>
+        <ion-input label="Nombre de Usuario" placeholder="Enter text"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input label=" Correo Electronico" type="email" placeholder="email@domain.com"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-input label="Repetir Correo" type="email" placeholder="email@domain.com"></ion-input>
+      </ion-item>
+
+
+      <ion-item>
+        <ion-input label="contraseña" type="password" value="password"></ion-input>
+      </ion-item>
+  </ion-list>
+   <ion-button class="ion-padding" [routerLink]="['/home']">Registrate</ion-button>
+</ion-content>|  
