@@ -30,3 +30,24 @@
   margin-left: 10px;
   cursor: pointer;
 }
+
+section{
+  display: flex;
+  width: 600px;
+  height: 300px;
+}
+
+section img{
+  width: 0;
+  flex-grow: .17;
+  object-fit: cover;
+  opacity: .8;
+  transition: .5;
+}
+
+// section img:hover{
+//   cursor: crosshair;
+//   width: 300px;
+//   opacity: 1;
+//   filter: contrast(120%);
+// }
