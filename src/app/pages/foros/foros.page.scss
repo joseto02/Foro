@@ -1,14 +1,36 @@
+// .portada{
+//     width: 412px;
+//     height: 150px;
+//     border: 2px solid #000;
+
+//     background-image: url(../../../assets/icon/Logo.png);
+
+//     resize: both;
+//     overflow: auto;
+
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//     background-position: center;
+// }
+
 .portada{
-    width: 412px;
-    height: 150px;
-    border: 2px solid #000;
-
-    background-image: url(../../../assets/icon/Logo.png);
-
-    resize: both;
-    overflow: auto;
-
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-image: url(../../../assets/portadas/fondo2.avif);
+    background-repeat: repeat-y;
+    // background-size: cover;
     background-position: center;
+    min-height: 100vh;
+    // display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
+}
+
+
+.bienvenida{
+    color: white;
+    padding-top: 50px;
+}
+
+.contenido{
+    padding-top: 90px;
 }
