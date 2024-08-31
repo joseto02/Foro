@@ -1,0 +1,39 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Ayuda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="fondo">
+    <h2>¡Contactanos!</h2>
+    <div class="intro">
+      <h4>¡Hola!, ¿en que podemos ayudarte?</h4>
+      <p>¿Buscas respuestas? Nuestra seccion de ayuda es la manera mas rapida de resolver cualquier consulta.
+        Aqui podras resolver tus dudas, notificarnos de algun error o decirnos sugerencias para poder seguir mejorando
+        nuestra app.
+      </p>
+    </div>
+    <h5>Selecciona una opcion:</h5>
+    <ion-list>
+      <ion-item>
+        <ion-select placeholder="Seleccione el tipo de consulta">
+          <div slot="label"><ion-text color="danger">(Obligatorio)</ion-text></div>
+          <ion-select-option value="quejas">Quejas</ion-select-option>
+          <ion-select-option value="errores">Errores</ion-select-option>
+          <ion-select-option value="sugerencias">Sugerencias</ion-select-option>
+          <ion-select-option value="otro">Otro</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+    <h5>Deja tus comentarios:</h5>
+    <ion-item>
+      <ion-textarea label="Ingrese el texto" labelPlacement="floating" placeholder=""></ion-textarea>
+    </ion-item>
+  </div>
+  
+</ion-content>

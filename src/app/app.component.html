@@ -10,11 +10,11 @@
         <ion-list>
           <ion-item>
             <ion-icon slot="start" name="home-outline"></ion-icon>
-            <ion-label>Pagina principal</ion-label>
+            <ion-label [routerLink]="['/home']">Pagina principal</ion-label>
           </ion-item>
           <ion-item>
             <ion-icon slot="start" name="game-controller-outline"></ion-icon>
-            <ion-label>Foros</ion-label>
+            <ion-label [routerLink]="['/foros']">Foros</ion-label>
           </ion-item>
           <ion-item>
             <ion-icon slot="start" name="newspaper-sharp"></ion-icon>
@@ -30,7 +30,7 @@
           </ion-item>
           <ion-item>
             <ion-icon slot="start" name="help-outline"></ion-icon>
-            <ion-label>Ayuda</ion-label>
+            <ion-label [routerLink]="['/ayuda']">Ayuda</ion-label>
           </ion-item>
           <ion-item>
             <ion-icon slot="start" name="settings-outline"></ion-icon>

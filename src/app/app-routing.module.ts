@@ -22,7 +22,15 @@ const routes: Routes = [
   {
     path: 'noticias',
     loadChildren: () => import('./pages/noticias/noticias.module').then( m => m.NoticiasPageModule)
+  },  {
+    path: 'ayuda',
+    loadChildren: () => import('./pages/ayuda/ayuda.module').then( m => m.AyudaPageModule)
   },
+  {
+    path: 'notfound',
+    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
+  },
+
 ];
 
 @NgModule({
