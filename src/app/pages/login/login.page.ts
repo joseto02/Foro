@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -6,10 +7,31 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  correo = '';
+  contrasena = '';
 
-  constructor() { }
+  constructor(
+    public alertController: AlertController,
+    public navCtrl: NavController
+  ) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  async continuar() {
+    if (this.correo === '' || this.contrasena === '') {
+      this.mostrarAlerta('Debe ingresar correo y contraseña');
+    } else {
+      // Navega a la página de inicio
+      this.navCtrl.navigateRoot('/home');
+    }
   }
 
+  async mostrarAlerta(mensaje: string) {
+    const alert = await this.alertController.create({
+      header: 'No se ha podido procesar tu solicitud',
+      message: 'Debe ingresar correo y contraseña',
+      buttons: ['OK']
+    });
+    await alert.present();
+  }
 }

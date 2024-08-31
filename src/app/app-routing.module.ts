@@ -22,9 +22,26 @@ const routes: Routes = [
   {
     path: 'noticias',
     loadChildren: () => import('./pages/noticias/noticias.module').then( m => m.NoticiasPageModule)
-  },  {
+  },
+  {
     path: 'ayuda',
     loadChildren: () => import('./pages/ayuda/ayuda.module').then( m => m.AyudaPageModule)
+  },
+  {
+    path: 'registro',
+    loadChildren: () => import('./pages/registro/registro.module').then(m => m.RegistroPageModule)
+  },
+  {
+    path: 'configuracion',
+    loadChildren: () => import('./pages/configuracion/configuracion.module').then(m => m.ConfiguracionPageModule)
+  },
+  {
+    path: 'cambio-p',
+    loadChildren: () => import('./pages/cambio-p/cambio-p.module').then(m => m.CambioPPageModule)
+  },
+  {
+    path: 'cambio-u',
+    loadChildren: () => import('./pages/cambio-u/cambio-u.module').then(m => m.CambioUPageModule)
   },
   {
     path: 'notfound',

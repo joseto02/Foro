@@ -8,13 +8,12 @@
   <div id="container">
     <strong>
       <ion-item>
-        <ion-input [(ngModel)]="correo" type="email" placeholder="email@domain.com"></ion-input>
+        <ion-input label="Correo actual" type="email" placeholder="email@domain.com"></ion-input>
       </ion-item>
     </strong>
     <ion-item>
-      <ion-input [(ngModel)]="contrasena" type="password" value=""></ion-input>
+      <ion-input label="nuevo Correo" type="email" placeholder="email@domain.com"></ion-input>
     </ion-item>
   </div>
-  <ion-button class="ion-padding"  (click)="continuar()">Iniciar sesion</ion-button>
+  <ion-button class="ion-padding" [routerLink]="['/home']">Actualizar</ion-button>
 </ion-content>
-
