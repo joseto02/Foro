@@ -10,6 +10,13 @@ export class LoginPage implements OnInit {
   correo = '';
   contrasena = '';
 
+  usuarios: any = [
+    {
+      correo: '',
+      contrasena: ''
+    }
+  ]
+
   constructor(
     public alertController: AlertController,
     public navCtrl: NavController
@@ -34,4 +41,5 @@ export class LoginPage implements OnInit {
     });
     await alert.present();
   }
+  
 }

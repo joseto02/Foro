@@ -59,6 +59,26 @@ const routes: Routes = [
     path: 'noticia-3',
     loadChildren: () => import('./pages/noticia-3/noticia-3.module').then( m => m.Noticia3PageModule)
   },
+  {
+    path: 'foro-1',
+    loadChildren: () => import('./pages/foro-1/foro-1.module').then( m => m.Foro1PageModule)
+  },
+  {
+    path: 'foro-2',
+    loadChildren: () => import('./pages/foro-2/foro-2.module').then( m => m.Foro2PageModule)
+  },
+  {
+    path: 'foro-3',
+    loadChildren: () => import('./pages/foro-3/foro-3.module').then( m => m.Foro3PageModule)
+  },
+  {
+    path: 'foro-4',
+    loadChildren: () => import('./pages/foro-4/foro-4.module').then( m => m.Foro4PageModule)
+  },
+  {
+    path: 'foro-5',
+    loadChildren: () => import('./pages/foro-5/foro-5.module').then( m => m.Foro5PageModule)
+  },
 
 ];
 
