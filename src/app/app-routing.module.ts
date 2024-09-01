@@ -44,10 +44,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/cambio-u/cambio-u.module').then(m => m.CambioUPageModule)
   },
   {
-    path: 'notfound',
-    loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
-  },
-  {
     path: 'noticia-1',
     loadChildren: () => import('./pages/noticia-1/noticia-1.module').then( m => m.Noticia1PageModule)
   },
@@ -78,6 +74,10 @@ const routes: Routes = [
   {
     path: 'foro-5',
     loadChildren: () => import('./pages/foro-5/foro-5.module').then( m => m.Foro5PageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
   },
 
 ];
