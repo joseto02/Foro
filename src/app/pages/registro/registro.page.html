@@ -8,20 +8,20 @@
 <ion-content [fullscreen]="true">
     <ion-list class="Register">
       <ion-item>
-        <ion-input label="Nombre de Usuario" placeholder="Enter text"></ion-input>
+        <ion-input [(ngModel)]="usuario" label="Nombre de Usuario" placeholder="Enter text"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input label=" Correo Electronico" type="email" placeholder="email@domain.com"></ion-input>
+        <ion-input [(ngModel)]="correo"  label=" Correo Electronico" type="email" placeholder="email@domain.com"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input label="Repetir Correo" type="email" placeholder="email@domain.com"></ion-input>
+        <ion-input [(ngModel)]="mail" label="Repetir Correo" type="email" placeholder="email@domain.com"></ion-input>
       </ion-item>
 
 
       <ion-item>
-        <ion-input label="contraseña" type="password" value="password"></ion-input>
+        <ion-input [(ngModel)]="contrasena" label="contraseña" type="password" value="password"></ion-input>
       </ion-item>
   </ion-list>
-   <ion-button class="ion-padding" [routerLink]="['/home']">Registrate</ion-button>
+   <ion-button class="ion-padding" (click)="continuar()">Registrate</ion-button>
 </ion-content>|  
