@@ -10,6 +10,7 @@ export class RegistroPage implements OnInit {
   correo = '';
   contrasena = '';
   usuario = '';
+  mail = '';
   constructor(
     public alertController: AlertController,
     public navCtrl: NavController,
@@ -18,7 +19,7 @@ export class RegistroPage implements OnInit {
 
   ngOnInit() {}
   async continuar() {
-    if (this.correo === '' || this.contrasena === '' || this.usuario === '') {
+    if (this.correo === '' || this.contrasena === '' || this.usuario === '' || this.mail === '') {
       this.mostrarAlerta('Debe ingresar correo y contraseña');
     } else {
       this.presentToast('bottom')

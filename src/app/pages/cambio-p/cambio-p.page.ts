@@ -8,6 +8,7 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
 })
 export class CambioPPage implements OnInit {
   contrasena = '';
+  password = '';
   
   constructor(
     public alertController: AlertController,
@@ -17,7 +18,7 @@ export class CambioPPage implements OnInit {
 
   ngOnInit() {}
   async continuar() {
-    if ( this.contrasena === '') {
+    if ( this.contrasena === ''|| this.password === '') {
       this.mostrarAlerta('Debe ingresar correo y contraseña');
     } else {
       this.presentToast('bottom')

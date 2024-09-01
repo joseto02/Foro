@@ -9,6 +9,7 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
 export class CambioUPage implements OnInit {
 
   correo = '';
+  mail = '';
   
   constructor(
     public alertController: AlertController,
@@ -18,7 +19,7 @@ export class CambioUPage implements OnInit {
 
   ngOnInit() {}
   async continuar() {
-    if ( this.correo === '') {
+    if ( this.correo === '' || this.mail === '') {
       this.mostrarAlerta('Debe ingresar correo y contraseña');
     } else {
       this.presentToast('bottom')
