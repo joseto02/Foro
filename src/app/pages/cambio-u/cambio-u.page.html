@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-back-button defaultHref="/configuracion" class="custom-back-button"></ion-back-button>
   <ion-toolbar>
-    <ion-title class="title" >iniciar sesion</ion-title>
+    <ion-title class="title" >Cambiar correo</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
@@ -15,5 +15,12 @@
       <ion-input label="nuevo Correo" type="email" placeholder="email@domain.com"></ion-input>
     </ion-item>
   </div>
-  <ion-button class="ion-padding" [routerLink]="['/home']">Actualizar</ion-button>
+  <ion-button class="ion-padding" [routerLink]="['/home']" id="footer-alerta">Actualizar</ion-button>
+  <ion-toast
+  trigger="footer-alerta"
+  position="bottom"
+  positionAnchor="footer"
+  message="el correo se actualizo con exito"
+  duration="2000"
+></ion-toast>
 </ion-content>

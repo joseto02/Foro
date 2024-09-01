@@ -15,6 +15,13 @@
       <ion-input label="nueva contraseña " type="password" value=""></ion-input>
     </ion-item>
   </div>
-  <ion-button class="ion-padding" [routerLink]="['/home']">Actualizar</ion-button>
+  <ion-button class="ion-padding" [routerLink]="['/home']" id="footer-alerta">Actualizar</ion-button>
+  <ion-toast
+  trigger="footer-alerta"
+  position="bottom"
+  positionAnchor="footer"
+  message="la contraseña se actualizo con exito"
+  duration="2000"
+></ion-toast>
 </ion-content>
 
