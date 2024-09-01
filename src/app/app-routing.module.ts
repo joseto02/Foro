@@ -38,6 +38,10 @@ const routes: Routes = [
     path: 'olvpas',
     loadChildren: () => import('./pages/olvpas/olvpas.module').then( m => m.OlvpasPageModule)
   },
+  {
+    path: 'termino',
+    loadChildren: () => import('./pages/termino/termino.module').then( m => m.TerminoPageModule)
+  },
 
 ];
 
