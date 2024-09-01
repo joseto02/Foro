@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController } from '@ionic/angular';
+import { AlertController, NavController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +11,7 @@ export class LoginPage implements OnInit {
   contrasena = '';
 
   constructor(
+    public toastController :ToastController,
     public alertController: AlertController,
     public navCtrl: NavController
   ) {}
@@ -21,7 +22,7 @@ export class LoginPage implements OnInit {
     if (this.correo === '' || this.contrasena === '') {
       this.mostrarAlerta('Debe ingresar correo y contraseña');
     } else {
-      // Navega a la página de inicio
+      this.presentToast('bottom')
       this.navCtrl.navigateRoot('/home');
     }
   }
@@ -34,4 +35,16 @@ export class LoginPage implements OnInit {
     });
     await alert.present();
   }
+  async presentToast(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'se inicio sesion correctamente',
+      duration: 1500,
+      position: position,
+    });
+
+    await toast.present();
+  }
+
+
+
 }
