@@ -9,7 +9,6 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
 export class LoginPage implements OnInit {
   correo = '';
   contrasena = '';
-
   constructor(
     public toastController :ToastController,
     public alertController: AlertController,

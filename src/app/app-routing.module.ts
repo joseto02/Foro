@@ -30,7 +30,15 @@ const routes: Routes = [
   {
     path: 'cambio-u',
     loadChildren: () => import('./pages/cambio-u/cambio-u.module').then( m => m.CambioUPageModule)
+  },  {
+    path: 'admin',
+    loadChildren: () => import('./pages/admin/admin.module').then( m => m.AdminPageModule)
   },
+  {
+    path: 'olvpas',
+    loadChildren: () => import('./pages/olvpas/olvpas.module').then( m => m.OlvpasPageModule)
+  },
+
 ];
 
 @NgModule({
