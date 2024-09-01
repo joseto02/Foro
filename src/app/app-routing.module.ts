@@ -47,6 +47,18 @@ const routes: Routes = [
     path: 'notfound',
     loadChildren: () => import('./pages/notfound/notfound.module').then( m => m.NotfoundPageModule)
   },
+  {
+    path: 'noticia-1',
+    loadChildren: () => import('./pages/noticia-1/noticia-1.module').then( m => m.Noticia1PageModule)
+  },
+  {
+    path: 'noticia-2',
+    loadChildren: () => import('./pages/noticia-2/noticia-2.module').then( m => m.Noticia2PageModule)
+  },
+  {
+    path: 'noticia-3',
+    loadChildren: () => import('./pages/noticia-3/noticia-3.module').then( m => m.Noticia3PageModule)
+  },
 
 ];
 

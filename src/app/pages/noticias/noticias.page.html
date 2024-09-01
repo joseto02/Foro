@@ -10,9 +10,9 @@
 
 <ion-content [fullscreen]="true">
   <ion-card>
-    <img alt="1" src="../../../assets/portadas/2024.webp" />
+    <img [routerLink]="['/noticia-1']" alt="1" src="../../../assets/portadas/2024.webp" />
     <ion-card-header>
-      <ion-card-title>Los mejores lanzamientos de enero hasta agosto del 2024.</ion-card-title>
+      <ion-card-title [routerLink]="['/noticia-1']">Los mejores lanzamientos de enero hasta agosto del 2024.</ion-card-title>
     </ion-card-header>
   
     <ion-card-content>
@@ -21,9 +21,9 @@
   </ion-card>
 
   <ion-card>
-    <img alt="2" src="../../../assets/portadas/space marine.jpg" />
+    <img [routerLink]="['/noticia-2']" alt="2" src="../../../assets/portadas/space marine.jpg" />
     <ion-card-header>
-      <ion-card-title>Proximos lanzamientos en septiembre del 2024 </ion-card-title>
+      <ion-card-title [routerLink]="['/noticia-2']">Proximos lanzamientos en septiembre del 2024 </ion-card-title>
     </ion-card-header>
   
     <ion-card-content>
@@ -32,9 +32,9 @@
   </ion-card>
 
   <ion-card>
-    <img alt="3" src="../../../assets/portadas/fracasos.webp" />
+    <img [routerLink]="['/noticia-3']" alt="3" src="../../../assets/portadas/fracasos.webp" />
     <ion-card-header>
-      <ion-card-title>Los mayores fracasos del 2024</ion-card-title>
+      <ion-card-title [routerLink]="['/noticia-3']">Los mayores fracasos del 2024</ion-card-title>
     </ion-card-header>
   
     <ion-card-content>
