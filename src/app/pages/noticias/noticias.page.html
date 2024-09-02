@@ -1,44 +1,51 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-    <ion-title>Noticias</ion-title>
-  </ion-toolbar>
+  <div class="fondo1">
+    <ion-toolbar >
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+      <ion-title>Noticias</ion-title>
+    </ion-toolbar>
+  </div>
+  
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-card>
-    <img [routerLink]="['/noticia-1']" alt="1" src="../../../assets/portadas/2024.webp" />
-    <ion-card-header>
-      <ion-card-title [routerLink]="['/noticia-1']">Los mejores lanzamientos de enero hasta agosto del 2024.</ion-card-title>
-    </ion-card-header>
+  <div class="fondo2">
+    <ion-card>
+      <img [routerLink]="['/noticia-1']" alt="1" src="../../../assets/portadas/2024.webp" />
+      <ion-card-header>
+        <ion-card-title [routerLink]="['/noticia-1']">Los mejores lanzamientos de enero hasta agosto del
+          2024.</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        En el siguiente articulo encontraras los mejores juegos en lo que va del año.
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card>
+      <img [routerLink]="['/noticia-2']" alt="2" src="../../../assets/portadas/space marine.jpg" />
+      <ion-card-header>
+        <ion-card-title [routerLink]="['/noticia-2']">Proximos lanzamientos en septiembre del 2024 </ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Revisa aqui los lanzamientos que tiene septiembre para PC, Xbox series y PS5.
+      </ion-card-content>
+    </ion-card>
+    
+    <ion-card>
+      <img [routerLink]="['/noticia-3']" alt="3" src="../../../assets/portadas/fracasos.webp" />
+      <ion-card-header>
+        <ion-card-title [routerLink]="['/noticia-3']">Los mayores fracasos del 2024</ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        Echemos un vistazo a los juegos que mas nos decepcionaron y los que causaron perdidas millonarias.
+      </ion-card-content>
+    </ion-card>
+  </div>
   
-    <ion-card-content>
-      En el siguiente articulo encontraras los mejores juegos en lo que va del año.
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <img [routerLink]="['/noticia-2']" alt="2" src="../../../assets/portadas/space marine.jpg" />
-    <ion-card-header>
-      <ion-card-title [routerLink]="['/noticia-2']">Proximos lanzamientos en septiembre del 2024 </ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content>
-      Revisa aqui los lanzamientos que tiene septiembre para PC, Xbox series y PS5.
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <img [routerLink]="['/noticia-3']" alt="3" src="../../../assets/portadas/fracasos.webp" />
-    <ion-card-header>
-      <ion-card-title [routerLink]="['/noticia-3']">Los mayores fracasos del 2024</ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content>
-      Echemos un vistazo a los juegos que mas nos decepcionaron y los que causaron perdidas millonarias.
-    </ion-card-content>
-  </ion-card>
 </ion-content>
