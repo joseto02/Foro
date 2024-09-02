@@ -10,14 +10,7 @@ export class LoginPage implements OnInit {
   usuario = '';
   correo = '';
   contrasena = '';
-
-  usuarios: any = [
-    {
-      correo: '',
-      contrasena: ''
-    }
-  ]
-
+  
   constructor(
     public toastController :ToastController,
     public alertController: AlertController,

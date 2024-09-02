@@ -76,6 +76,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/foro-5/foro-5.module').then( m => m.Foro5PageModule)
   },
   {
+    path: 'admin',
+    loadChildren: () => import('./pages/admin/admin.module').then(m => m.AdminPageModule)
+  },
+  {
+    path: 'olvpas',
+    loadChildren: () => import('./pages/olvpas/olvpas.module').then(m => m.OlvpasPageModule)
+  },
+  {
+    path: 'termino',
+    loadChildren: () => import('./pages/termino/termino.module').then(m => m.TerminoPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
   },
