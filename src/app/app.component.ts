@@ -12,5 +12,7 @@ export class AppComponent {
   irPagina() {
     this.router.navigate(['/login'])
   }
+
+  
 }
 

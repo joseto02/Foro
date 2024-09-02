@@ -7,6 +7,7 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  usuario = '';
   correo = '';
   contrasena = '';
 
@@ -26,9 +27,12 @@ export class LoginPage implements OnInit {
   ngOnInit() {}
 
   async continuar() {
-    if (this.correo === '' || this.contrasena === '') {
-      this.mostrarAlerta('Debe ingresar correo y contraseña');
+    if (this.usuario === '' || this.contrasena === '') {
+      this.mostrarAlerta('Debe ingresar usuario y contraseña');
     } else {
+      
+      localStorage.setItem('usuarioLogeado', this.usuario);
+
       this.presentToast('bottom')
       this.navCtrl.navigateRoot('/home');
     }
@@ -37,14 +41,14 @@ export class LoginPage implements OnInit {
   async mostrarAlerta(mensaje: string) {
     const alert = await this.alertController.create({
       header: 'No se ha podido procesar tu solicitud',
-      message: 'Debe ingresar correo y contraseña',
+      message: 'Debe ingresar usuario y contraseña',
       buttons: ['OK']
     });
     await alert.present();
   }
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
-      message: 'se inicio sesion correctamente',
+      message: 'Se inicio sesion correctamente',
       duration: 1500,
       position: position,
     });

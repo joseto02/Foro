@@ -1,27 +1,35 @@
 <ion-header [translucent]="true">
-  <ion-back-button defaultHref="/configuracion" class="custom-back-button"></ion-back-button>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title class="title" >Registrate en GamerNest </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <div class="fondo">
     <ion-list class="Register">
       <ion-item>
-        <ion-input [(ngModel)]="usuario" label="Nombre de Usuario" placeholder="Enter text"></ion-input>
+        <ion-input [(ngModel)]="usuario" label="Nombre de Usuario:"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input [(ngModel)]="correo"  label=" Correo Electronico" type="email" placeholder="email@domain.com"></ion-input>
+        <ion-input [(ngModel)]="correo" label=" Correo Electronico:" type="email"></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-input [(ngModel)]="mail" label="Confirme su Correo:" type="email"></ion-input>
+      </ion-item>
+    
+      <ion-item>
+        <ion-input [(ngModel)]="contrasena" label="Contraseña:" type="password" value="password"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input [(ngModel)]="mail" label="Repetir Correo" type="email" placeholder="email@domain.com"></ion-input>
+        <ion-input [(ngModel)]="contrasena2" label="Confirme su contraseña:" type="password" value="password"></ion-input>
       </ion-item>
-
-
-      <ion-item>
-        <ion-input [(ngModel)]="contrasena" label="contraseña" type="password" value="password"></ion-input>
-      </ion-item>
-  </ion-list>
-   <ion-button class="ion-padding" (click)="continuar()">Registrate</ion-button>
+    </ion-list>
+    <ion-button class="ion-padding" (click)="continuar()" color="tertiary">Registrate</ion-button>
+  </div>
+    
 </ion-content>|  

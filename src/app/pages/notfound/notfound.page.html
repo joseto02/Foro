@@ -7,13 +7,14 @@
 </ion-header> -->
 
 <ion-content [fullscreen]="true">
-  <ion-header>
-    <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
-    </ion-buttons>
-  </ion-header>
-  <div class="fondo">
-    <ion-title>Error 404:</ion-title>
-    <h4>La pagina que buscas no existe</h4>
-  </div>
+    <ion-header>
+      <ion-buttons slot="start">
+        <ion-back-button></ion-back-button>
+      </ion-buttons>
+    </ion-header>
+    <div class="fondo">
+      <ion-title>Error 404:</ion-title>
+      <h4>La pagina que buscas no existe</h4>
+      <ion-button shape="round" [routerLink]="['/home']" color="tertiary">Volver al inicio</ion-button>
+    </div>
 </ion-content>
