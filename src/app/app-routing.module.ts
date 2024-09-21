@@ -88,16 +88,16 @@ const routes: Routes = [
     loadChildren: () => import('./pages/termino/termino.module').then(m => m.TerminoPageModule)
   },
   {
-    path: '**',
-    loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
-  },
-  {
     path: 'baneo',
     loadChildren: () => import('./pages/baneo/baneo.module').then( m => m.BaneoPageModule)
   },
   {
     path: 'elimforo',
     loadChildren: () => import('./pages/elimforo/elimforo.module').then( m => m.ElimforoPageModule)
+  },
+  {
+    path: '**',
+    loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
   },
 
 ];
