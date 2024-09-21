@@ -1,10 +1,9 @@
 <ion-header [translucent]="true">
-  <!-- <ion-back-button defaultHref="/configuracion" class="custom-back-button"></ion-back-button> -->
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title class="title" >iniciar sesion</ion-title>
+    <ion-title class="title" >iniciar sesión</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
@@ -12,13 +11,18 @@
     <div id="container">
       <strong>
         <ion-item>
-          <ion-input [(ngModel)]="usuario" placeholder="Ingrese su usuario:"></ion-input>
+          <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+          <ion-input [(ngModel)]="usuario" placeholder="Usuario:"></ion-input>
         </ion-item>
       </strong>
       <ion-item>
-        <ion-input [(ngModel)]="contrasena" type="password" placeholder="Ingrese su contraseña:"></ion-input>
+        <ion-icon slot="start" name="lock-closed"></ion-icon>
+        <ion-input [(ngModel)]="contrasena" type="password" placeholder="Contraseña:"></ion-input>
       </ion-item>
+      <ion-label class="contraseña" [routerLink]="['/olvpas']">¿Olvidateste tu contraseña?</ion-label>
+      <br>
+      <ion-label class="registro" [routerLink]="['/registro']">¿No tienetes cuenta? Registrate aqui</ion-label>
     </div>
-    <ion-button class="ion-padding" (click)="continuar()">Iniciar sesion</ion-button>
+    <ion-button class="ion-padding" (click)="continuar()">Iniciar sesión</ion-button>
   </div>
 </ion-content>

@@ -1,16 +1,18 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-back-button defaultHref="/configuracion" class="custom-back-button"></ion-back-button>
-    <ion-title class="title">Recuperar contraseña</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title >Recuperar contraseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-header>
-      <ion-card-title> ingrese su correo:</ion-card-title>
+      <ion-card-title>ingrese su correo: </ion-card-title>
     </ion-card-header>
-    <ion-input class="correo" type="email" placeholder="email@domain.com"> </ion-input>
+    <ion-input class="correo" type="email" placeholder="ejemplo@gmail.com"> </ion-input>
     <ion-card-content>
       Por favor, escribe el email con el que estás registrado en GamerNest y te enviaremos tu contraseña a tu correo.
     </ion-card-content>

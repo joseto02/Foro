@@ -11,25 +11,39 @@
   <div class="fondo">
     <ion-list class="Register">
       <ion-item>
-        <ion-input [(ngModel)]="usuario" label="Nombre de Usuario:"></ion-input>
+        <ion-icon slot="start" name="person-outline"></ion-icon>
+        <ion-input [(ngModel)]="usuario" (ngModelChange)="validarUsuario()" placeholder="Nombre de Usuario:"></ion-input>
       </ion-item>
-      <ion-item>
-        <ion-input [(ngModel)]="correo" label=" Correo Electronico:" type="email"></ion-input>
-      </ion-item>
-    
-      <ion-item>
-        <ion-input [(ngModel)]="mail" label="Confirme su Correo:" type="email"></ion-input>
-      </ion-item>
-    
-      <ion-item>
-        <ion-input [(ngModel)]="contrasena" label="Contraseña:" type="password" value="password"></ion-input>
-      </ion-item>
+      <p *ngIf="mensajeUsuario" class="error"> {{mensajeUsuario}} </p>
 
       <ion-item>
-        <ion-input [(ngModel)]="contrasena2" label="Confirme su contraseña:" type="password" value="password"></ion-input>
+        <ion-icon slot="start" name="at-outline"></ion-icon>
+        <ion-input [(ngModel)]="correo" (ngModelChange)="validarCorreo()" placeholder=" Correo Electronico:" type="email"></ion-input>
       </ion-item>
+      <p *ngIf="mensajeCorreo" class="error"> {{mensajeCorreo}} </p>
+    
+      <ion-item>
+        <ion-icon slot="start" name="at-outline"></ion-icon>
+        <ion-input [(ngModel)]="correo2" (ngModelChange)="correosIguales()" placeholder="Confirme su Correo:" type="email"></ion-input>
+      </ion-item>
+      <p *ngIf="msjCorreosIguales" class="error"> {{msjCorreosIguales}} </p>
+      
+    
+      <ion-item>
+        <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
+        <ion-input [(ngModel)]="contrasena" (ngModelChange)="validarContrasena()" placeholder="Contraseña:" type="password" value="password"></ion-input>
+      </ion-item>
+      <p *ngIf="msjContrasena" class="error"> {{msjContrasena}} </p>
+
+      <ion-item>
+        <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
+        <ion-input [(ngModel)]="contrasena2" (ngModelChange)="contrasenasIguales()" placeholder="Confirme su contraseña:" type="password" value="password"></ion-input>
+      </ion-item>
+      <p *ngIf="msjContrasenasIguales" class="error"> {{msjContrasenasIguales}} </p>
+      
     </ion-list>
-    <ion-button class="ion-padding" (click)="continuar()" color="tertiary">Registrate</ion-button>
+
+    <ion-button class="ion-padding" (click)="continuar()" color="tertiary">Registrarse</ion-button>
   </div>
     
 </ion-content>|  

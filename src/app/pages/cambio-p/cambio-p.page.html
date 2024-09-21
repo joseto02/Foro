@@ -8,13 +8,17 @@
   <div id="container">
     <strong>
       <ion-item>
-        <ion-input [(ngModel)]="contrasena" label="contraseña actual" type="password" value=""></ion-input>
+        <ion-input [(ngModel)]="contrasena" label="Contraseña actual:" type="password" value=""></ion-input>
       </ion-item>
     </strong>
     <ion-item>
-      <ion-input [(ngModel)]="password" label="nueva contraseña " type="password" value=""></ion-input>
+      <ion-input [(ngModel)]="password" label="Nueva contraseña:" type="password" value=""></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-label>Confirme su contraseña</ion-label>
+      <ion-input type="password" value=""></ion-input>
+    </ion-item>
+    
   </div>
   <ion-button class="ion-padding" (click)="continuar()">Actualizar</ion-button>
 </ion-content>
-
