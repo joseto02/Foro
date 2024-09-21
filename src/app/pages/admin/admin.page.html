@@ -1,13 +1,106 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>admin</ion-title>
+    <ion-title>Panel de Administración</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <ion-icon name="notifications-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">admin</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-card class="profile-card">
+    <ion-card-header>
+      <ion-avatar slot="start">
+        <img src="assets/img/admin-avatar.png" />
+      </ion-avatar>
+      <ion-card-title>Hola, Admin</ion-card-title>
+      <ion-card-subtitle>Super Administrador</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-chip color="">
+        <ion-icon name="checkmark-done-circle" color="light"></ion-icon>
+        <ion-label>Sin alertas pendientes</ion-label>
+      </ion-chip>
+    </ion-card-content>
+  </ion-card>
+
+  
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6">
+        <ion-card button routerLink="/baneo" class="action-card">
+          <ion-card-header>
+            <ion-icon name="people" size="large" color="primary"></ion-icon>
+            <ion-card-title>Usuarios</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Gestiona usuarios, baneos, permisos, y más.
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-card button routerLink="/elimforo" class="action-card">
+          <ion-card-header>
+            <ion-icon name="chatbubbles" size="large" color="secondary"></ion-icon>
+            <ion-card-title>Foros</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Elimina, edita y gestiona foros de discusión.
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-card button routerLink="/admin/reports" class="action-card">
+          <ion-card-header>
+            <ion-icon name="alert-circle" size="large" color="danger"></ion-icon>
+            <ion-card-title>Reportes</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Revisa reportes de usuarios y foros.
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <ion-col size="6">
+        <ion-card button routerLink="/admin/settings" class="action-card">
+          <ion-card-header>
+            <ion-icon name="settings" size="large" color="tertiary"></ion-icon>
+            <ion-card-title>Configuración</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            Ajustes avanzados y preferencias del foro.
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
+
+<ion-footer>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="dashboard">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Inicio</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="users">
+        <ion-icon name="people"></ion-icon>
+        <ion-label>Usuarios</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="forums">
+        <ion-icon name="chatbubbles"></ion-icon>
+        <ion-label>Foros</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="settings">
+        <ion-icon name="settings"></ion-icon>
+        <ion-label>Configuración</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-footer>
