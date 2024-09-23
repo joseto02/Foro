@@ -16,8 +16,12 @@
     <div class="contenido">
 
       <ion-header>
-        <h3>Temas:</h3>
+        <div class="header-container">
+          <h3>Temas:</h3>
+          <ion-button shape="round" color="tertiary" class="custom-button">Agregar tema</ion-button>
+        </div>
       </ion-header>
+
       <ion-list>
         <ion-item>
           <ion-label [routerLink]="['/foro-1']">Los juegos en formato fisico desapareceran? <br>

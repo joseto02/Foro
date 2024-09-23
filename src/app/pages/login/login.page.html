@@ -10,15 +10,20 @@
   <div class="fondo">
     <div id="container">
       <strong>
+
         <ion-item>
           <ion-icon slot="start" name="person-circle-outline"></ion-icon>
-          <ion-input [(ngModel)]="usuario" placeholder="Usuario:"></ion-input>
+          <ion-input [(ngModel)]="usuario" label="Usuario:"></ion-input>
         </ion-item>
       </strong>
+
       <ion-item>
         <ion-icon slot="start" name="lock-closed"></ion-icon>
-        <ion-input [(ngModel)]="contrasena" type="password" placeholder="Contraseña:"></ion-input>
+        <ion-input [(ngModel)]="contrasena" type="password" label="Contraseña:">
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
       </ion-item>
+
       <ion-label class="contraseña" [routerLink]="['/olvpas']">¿Olvidateste tu contraseña?</ion-label>
       <br>
       <ion-label class="registro" [routerLink]="['/registro']">¿No tienetes cuenta? Registrate aqui</ion-label>

@@ -28,19 +28,22 @@
       </ion-item>
       <p *ngIf="msjCorreosIguales" class="error"> {{msjCorreosIguales}} </p>
       
-    
       <ion-item>
         <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
-        <ion-input [(ngModel)]="contrasena" (ngModelChange)="validarContrasena()" placeholder="Contraseña:" type="password" value="password"></ion-input>
+        <ion-input [(ngModel)]="contrasena" (ngModelChange)="validarContrasena()" type="password" label="Contraseña:" value="">
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
       </ion-item>
       <p *ngIf="msjContrasena" class="error"> {{msjContrasena}} </p>
 
       <ion-item>
         <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
-        <ion-input [(ngModel)]="contrasena2" (ngModelChange)="contrasenasIguales()" placeholder="Confirme su contraseña:" type="password" value="password"></ion-input>
+        <ion-input [(ngModel)]="contrasena2" (ngModelChange)="contrasenasIguales()" type="password" placeholder="Confirmar contraseña:" value="">
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
       </ion-item>
       <p *ngIf="msjContrasenasIguales" class="error"> {{msjContrasenasIguales}} </p>
-      
+
     </ion-list>
 
     <ion-button class="ion-padding" (click)="continuar()" color="tertiary">Registrarse</ion-button>
