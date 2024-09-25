@@ -8,23 +8,75 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
 })
 export class CambioUPage implements OnInit {
 
-  correo = '';
-  mail = '';
+  correoActual: string = '';
+  newCorreo: string = '';
+  newCorreo2: string = '';
+
+  //Variables para los mensajes
+  msjCorreoActual: string = '';
+  msjNewCorreo: string = '';
+  msjvalidacion: string = '';
   
   constructor(
-    public alertController: AlertController,
-    public navCtrl: NavController,
-    public toastController :ToastController,
+    private alertController: AlertController,
+    private navCtrl: NavController,
+    private toastController :ToastController,
   ) { }
 
-  ngOnInit() {}
-  async continuar() {
-    if ( this.correo === '' || this.mail === '') {
-      this.mostrarAlerta('Debe ingresar correo y contraseña');
-    } else {
-      this.presentToast('bottom')
-      this.navCtrl.navigateRoot('/home');
+  ngOnInit() { }
+
+  validarCorreo() {
+    const correoValido = /@/;
+
+    if (this.correoActual === '') {
+      this.msjCorreoActual = 'Debe ingresar su correo actual';
     }
+    else if (!correoValido.test(this.correoActual)) {
+      this.msjCorreoActual = 'Debe ingresar un correo valido';
+    }
+    else {
+      this.msjCorreoActual = '';
+    }
+  }
+
+  validarNewCorreo() {
+    const correoValido = /@/;
+
+    if (this.newCorreo === '') {
+      this.msjNewCorreo = 'Debe ingresar un nuevo correo';
+    }
+    else if (this.newCorreo == this.correoActual) {
+      this.msjNewCorreo = 'El nuevo correo no puede ser igual al actual'
+    }
+    else if (!correoValido.test(this.newCorreo)) {
+      this.msjNewCorreo = 'Debe ingresar un correo valido';
+    }
+    else {
+      this.msjNewCorreo = '';
+    }
+  }
+
+  validarCorreos() {
+    if (this.newCorreo !== this.newCorreo2) {
+      this.msjvalidacion = 'Los correos no coiciden';
+    }
+    else {
+      this.msjvalidacion = '';
+    }
+  }
+  
+  async continuar() {
+
+    this.validarCorreo();
+    this.validarNewCorreo();
+    this.validarCorreos();
+
+    if (this.msjCorreoActual !== '' || this.msjNewCorreo !== '' || this.msjvalidacion !== '') {
+      return;
+    }
+
+    this.presentToast('bottom')
+    this.navCtrl.navigateRoot('/home');
   }
 
   async mostrarAlerta(mensaje: string) {

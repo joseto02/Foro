@@ -6,9 +6,13 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  
   usuario: string = '';
-  correo: string = '';
   contrasena: string = '';
+
+  //Variables de validaciones
+  msjUsuario: string = '';
+  msjContrasena: string = '';
   
   constructor(
     public toastController :ToastController,
@@ -16,18 +20,42 @@ export class LoginPage implements OnInit {
     public navCtrl: NavController
   ) {}
 
-  ngOnInit() {}
-  async continuar() {
-    if (this.usuario === '' || this.contrasena === '') {
-      this.mostrarAlerta('Debe ingresar usuario y contraseña');
-    } else {
-      
-      localStorage.setItem('usuarioLogeado', this.usuario);
-
-      this.presentToast('bottom')
-      this.navCtrl.navigateRoot('/home');
+  ngOnInit() { }
+  
+  validarUsuario() {
+    if (this.usuario === '') {
+      this.msjUsuario = 'Debe ingresar su usuario';
+    }
+    else {
+      this.msjUsuario = '';
     }
   }
+
+  validarContrasena() {
+    if (this.contrasena === '') {
+      this.msjContrasena = 'Debe ingresar su contraseña';
+    }
+    else {
+      this.msjContrasena = '';
+    }
+  }
+
+  continuar() {
+    
+    this.validarUsuario();
+    this.validarContrasena();
+
+    if (this.msjUsuario !== '' || this.msjContrasena !== '') {
+      return;
+    }
+
+    localStorage.setItem('usuarioLogeado', this.usuario);
+
+    this.presentToast('bottom')
+    this.navCtrl.navigateRoot('/home');
+    
+  }
+
   async mostrarAlerta(mensaje: string) {
     const alert = await this.alertController.create({
       header: 'No se ha podido procesar tu solicitud',

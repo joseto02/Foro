@@ -10,14 +10,21 @@
     padding: 16px;
 }
 
-ion-item ion-textarea{
-    padding-bottom: 100px;
-}
-
 h2, h4, h5, p{
     color: white;
 }
 
-ion-button{
-    padding-top: 20px;
+.custom-textarea{
+    min-height: 150px;
+    height: auto;
+}
+
+.custom-button{
+    margin-top: 20px;
+}
+
+.error{
+    color: red;
+    font-size: 15px;
+    text-align: center;
 }

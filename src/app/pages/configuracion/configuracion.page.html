@@ -4,18 +4,29 @@
       <ion-menu-button></ion-menu-button>
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Configuracion</ion-title>
+    <ion-title>Editar perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-item [routerLink]="['/cambio-p']">
-    <ion-label>Cambiar mi contraseña</ion-label>
-  </ion-item>
-  <ion-item [routerLink]="['/cambio-u']">
-    <ion-label>Cambiar Correo Electronico</ion-label>
-  </ion-item>
-  <ion-item [routerLink]="['/olvpas']">
-    <ion-label>Olvide mi contraseña</ion-label>
-  </ion-item>
+  <div class="fondo">
+    <div class="contenedor-perfil">
+      <img src="../../../assets/portadas/profile.png" alt="fondo de perfil" class="imagen-perfil">
+    </div>
+    
+    <div class="datos">
+      <p>Usuario: usuario1</p>
+      <p>Correo: usuario&#64;ejemplo.com</p>
+    </div>
+    
+    <ion-item [routerLink]="['/cambio-p']">
+      <ion-label>Cambiar mi contraseña</ion-label>
+    </ion-item>
+    <ion-item [routerLink]="['/cambio-u']">
+      <ion-label>Cambiar Correo Electronico</ion-label>
+    </ion-item>
+    <ion-item [routerLink]="['/olvpas']">
+      <ion-label>Olvidé mi contraseña</ion-label>
+    </ion-item>
+  </div>
 </ion-content>

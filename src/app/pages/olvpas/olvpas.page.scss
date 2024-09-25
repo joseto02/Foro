@@ -1,8 +1,14 @@
-
-.correo{
-    margin-left: 45%;
-    margin-top: -13%;
-}
 .boton{
     margin-left:78%;
+}
+
+.contenedor{
+    display: flex;
+    justify-content: space-between;
+}
+
+.error{
+    color: red;
+    font-size: 15px;
+    text-align: center;
 }

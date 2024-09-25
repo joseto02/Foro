@@ -1,19 +1,30 @@
 <ion-header [translucent]="true">
-  <ion-back-button defaultHref="/configuracion" class="custom-back-button"></ion-back-button>
   <ion-toolbar>
+    <!-- <ion-back-button defaultHref="/configuracion" class="custom-back-button"></ion-back-button> -->
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title class="title" >Cambiar correo</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
   <div id="container">
-    <strong>
-      <ion-item>
-        <ion-input [(ngModel)]="correo" label="Correo actual" type="email" placeholder="email@domain.com"></ion-input>
-      </ion-item>
-    </strong>
+    
     <ion-item>
-      <ion-input [(ngModel)]="mail" label="nuevo Correo" type="email" placeholder="email@domain.com"></ion-input>
+      <ion-input [(ngModel)]="correoActual" (ngModelChange)="validarCorreo()" label="Correo actual:" type="email"></ion-input>
     </ion-item>
+    <p *ngIf="msjCorreoActual" class="error"> {{msjCorreoActual}} </p>
+    
+    <ion-item>
+      <ion-input [(ngModel)]="newCorreo" (ngModelChange)="validarNewCorreo()" label="Nuevo correo:" type="email"></ion-input>
+    </ion-item>
+    <p *ngIf="msjNewCorreo" class="error"> {{msjNewCorreo}} </p>
+
+    <ion-item>
+      <ion-input [(ngModel)]="newCorreo2" (ngModelChange)="validarCorreos()" label="Confirmar correo nuevo:" type="email"></ion-input>
+    </ion-item>
+    <p *ngIf="msjvalidacion" class="error"> {{msjvalidacion}} </p>
+
   </div>
   <ion-button class="ion-padding" (click)="continuar()">Actualizar</ion-button>
 </ion-content>

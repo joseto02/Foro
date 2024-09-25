@@ -1,23 +1,34 @@
 <ion-header [translucent]="true">
-  <ion-back-button defaultHref="/configuracion" class="custom-back-button"></ion-back-button>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title class="title" >Cambiar Contraseña </ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
   <div id="container">
-    <strong>
-      <ion-item>
-        <ion-input [(ngModel)]="contrasena" label="Contraseña actual:" type="password" value=""></ion-input>
-      </ion-item>
-    </strong>
+    
     <ion-item>
-      <ion-input [(ngModel)]="password" label="Nueva contraseña:" type="password" value=""></ion-input>
+      <ion-input [(ngModel)]="contrasenaActual" (ngModelChange)="validarContrasena()" type="password" label="Contraseña actual:">
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
     </ion-item>
+    <p *ngIf="msjContrasena" class="error"> {{msjContrasena}} </p>
+
     <ion-item>
-      <ion-label>Confirme su contraseña</ion-label>
-      <ion-input type="password" value=""></ion-input>
+      <ion-input [(ngModel)]="newPassword" (ngModelChange)="validarNuevaContrasena()" type="password" label="Nueva contraseña:">
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
     </ion-item>
+    <p *ngIf="msjNuevaContrasena" class="error"> {{msjNuevaContrasena}} </p>
+
+    <ion-item>
+      <ion-input [(ngModel)]="password2" (ngModelChange)="validarContrasenas()" type="password" placeholder="Confirme su nueva contraseña">
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
+    </ion-item>
+    <p *ngIf="msjContrasenasIguales" class="error"> {{msjContrasenasIguales}} </p>
     
   </div>
   <ion-button class="ion-padding" (click)="continuar()">Actualizar</ion-button>

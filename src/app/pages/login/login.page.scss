@@ -7,12 +7,9 @@
     margin-top: 75%;
   }
   
- .ion-padding{
-    margin-top: 170%;
-    margin-left:28%;
- }
-.title{
-  text-align: center;
+.ion-padding{
+  margin-top: 170%;
+  margin-left:28%;
 }
 
 .fondo {
@@ -38,4 +35,13 @@
 .registro{
   color: rgba(253, 236, 0, 0.986);
   text-decoration: underline;
+}
+
+.error{
+  border: 2px solid rebeccapurple;
+  padding: 10px;
+  color: rebeccapurple;
+  font-size: 15px;
+  display:inline-block;
+  background-color: black;
 }

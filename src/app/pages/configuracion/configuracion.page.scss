@@ -1,8 +1,26 @@
-.custom-back-button{
-    margin-right:85%;
-    width: 20px; 
-
+.contenedor-perfil{
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 40px;
 }
-.title{
-    margin-left: 29%
-  }
+
+.imagen-perfil{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.datos{
+    text-align: center;
+}
+
+.fondo {
+    background-image: url('../../../assets/portadas/fondo5.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100%;
+    opacity: 500;
+}

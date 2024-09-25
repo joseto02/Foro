@@ -10,13 +10,16 @@
 <ion-content [fullscreen]="true">
   <ion-card>
     <ion-card-header>
-      <ion-card-title>ingrese su correo: </ion-card-title>
+      <div class="contenedor">
+        <ion-card-title>ingrese su correo: </ion-card-title>
+        <ion-input [(ngModel)]="email" (ngModelChange)="validarEmail()" class="correo" type="email" placeholder="ejemplo@gmail.com"> </ion-input>
+      </div>
+      <p *ngIf="msjEmail" class="error"> {{msjEmail}} </p>
     </ion-card-header>
-    <ion-input class="correo" type="email" placeholder="ejemplo@gmail.com"> </ion-input>
     <ion-card-content>
       Por favor, escribe el email con el que estás registrado en GamerNest y te enviaremos tu contraseña a tu correo.
     </ion-card-content>
   
-    <ion-button fill="clear" class="boton">enviar</ion-button>
+    <ion-button (click)="continuar()" fill="clear" class="boton">enviar</ion-button>
   </ion-card>
 </ion-content>
