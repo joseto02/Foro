@@ -12,29 +12,23 @@ export class LoginPage implements OnInit {
   correo = '';
   contrasena = '';
   loginForm: any;
-  private adminEmails: string[] = ['admin@gamernest.com'];
   constructor(
-    public toastController :ToastController,
+    public toastController: ToastController,
     public alertController: AlertController,
     public navCtrl: NavController
   ) {}
 
   ngOnInit() {}
+  
   async continuar() {
     if (this.correo === '' || this.contrasena === '') {
       this.mostrarAlerta('Debe ingresar correo y contraseña');
     } else {
       this.presentToast('bottom');
-
-   
-      if (this.adminEmails.includes(this.correo)) {
-      
-        this.navCtrl.navigateRoot('/admin');
-      } else {
-        this.navCtrl.navigateRoot('/home');
-      }
+      this.navCtrl.navigateRoot('/home');
     }
   }
+
   async mostrarAlerta(mensaje: string) {
     const alert = await this.alertController.create({
       header: 'No se ha podido procesar tu solicitud',
@@ -43,16 +37,14 @@ export class LoginPage implements OnInit {
     });
     await alert.present();
   }
+
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
-      message: 'se inicio sesion correctamente',
+      message: 'se inició sesión correctamente',
       duration: 1500,
       position: position,
     });
 
     await toast.present();
   }
-
-
-
 }

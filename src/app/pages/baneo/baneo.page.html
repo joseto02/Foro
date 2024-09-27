@@ -1,13 +1,32 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>baneo</ion-title>
+<!-- src/app/admin-management/admin-management.page.html -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title class="title">Gestión de Usuarios</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">baneo</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
+  <ion-card *ngFor="let user of users">
+    <ion-card-header>
+      <ion-card-title>{{ user.name }}</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Administrador:</ion-label>
+        <ion-toggle
+          [checked]="user.isAdmin"
+          (ionChange)="toggleAdmin(user)"
+        ></ion-toggle>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Banear Usuario:</ion-label>
+        <ion-toggle
+          [checked]="user.isBanned"
+          (ionChange)="toggleBan(user)"
+        ></ion-toggle>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
