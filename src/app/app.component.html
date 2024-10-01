@@ -22,6 +22,10 @@
             <ion-label [routerLink]="['/noticias']">Noticias</ion-label>
           </ion-item>
           <ion-item>
+            <ion-icon slot="start" name="star-outline"></ion-icon>
+            <ion-label [routerLink]="['/favorito']">Favoritos</ion-label>
+          </ion-item>
+          <ion-item>
             <ion-icon slot="start" name="person"></ion-icon>
             <ion-label (click)="irPagina()">Iniciar sesión</ion-label>
           </ion-item>
@@ -40,7 +44,6 @@
           <ion-item (click)="cerrarSesion()">
             <ion-icon slot="start" name="close-outline"></ion-icon>
             <ion-label>Cerrar sesión</ion-label>
-            <!-- <ion-back-button defaultHref="/home" class="custom-back-button" text="Cerrar sesión"></ion-back-button> -->
           </ion-item>
           <ion-item class="ionic" [routerLink]="['/termino']">
             <ion-label>Terminos y Condiciones</ion-label>

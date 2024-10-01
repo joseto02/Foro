@@ -96,6 +96,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/elimforo/elimforo.module').then( m => m.ElimforoPageModule)
   },
   {
+    path: 'favorito',
+    loadChildren: () => import('./pages/favorito/favorito.module').then( m => m.FavoritoPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
   },
