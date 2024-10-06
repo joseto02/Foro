@@ -88,16 +88,24 @@ const routes: Routes = [
     loadChildren: () => import('./pages/termino/termino.module').then(m => m.TerminoPageModule)
   },
   {
-    path: 'baneo',
-    loadChildren: () => import('./pages/baneo/baneo.module').then( m => m.BaneoPageModule)
-  },
-  {
-    path: 'elimforo',
-    loadChildren: () => import('./pages/elimforo/elimforo.module').then( m => m.ElimforoPageModule)
-  },
-  {
     path: 'favorito',
     loadChildren: () => import('./pages/favorito/favorito.module').then( m => m.FavoritoPageModule)
+  },
+  {
+    path: 'crear-contenido',
+    loadChildren: () => import('./pages/crear-contenido/crear-contenido.module').then(m => m.CrearContenidoPageModule)
+  },
+  {
+    path: 'editar-contenido',
+    loadChildren: () => import('./pages/editar-contenido/editar-contenido.module').then(m => m.EditarContenidoPageModule)
+  },
+  {
+    path: 'insertar',
+    loadChildren: () => import('./pages/insertar/insertar.module').then(m => m.InsertarPageModule)
+  },
+  {
+    path: 'usuarios',
+    loadChildren: () => import('./pages/usuarios/usuarios.module').then(m => m.UsuariosPageModule)
   },
   {
     path: '**',

@@ -12,7 +12,7 @@
     <ion-list class="Register">
       <ion-item>
         <ion-icon slot="start" name="person-outline"></ion-icon>
-        <ion-input [(ngModel)]="usuario" (ngModelChange)="validarUsuario()" placeholder="Nombre de Usuario:"></ion-input>
+        <ion-input [(ngModel)]="nickName" (ngModelChange)="validarUsuario()" placeholder="Nombre de Usuario:"></ion-input>
       </ion-item>
       <p *ngIf="mensajeUsuario" class="error"> {{mensajeUsuario}} </p>
 
@@ -30,7 +30,7 @@
       
       <ion-item>
         <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
-        <ion-input [(ngModel)]="contrasena" (ngModelChange)="validarContrasena()" type="password" label="Contraseña:" value="">
+        <ion-input [(ngModel)]="clave" (ngModelChange)="validarContrasena()" type="password" label="Contraseña:" value="">
           <ion-input-password-toggle slot="end"></ion-input-password-toggle>
         </ion-input>
       </ion-item>

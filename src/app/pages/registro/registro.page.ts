@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { ServiciobdService } from 'src/app/services/serviciobd.service';
 
 @Component({
   selector: 'app-registro',
@@ -9,10 +10,10 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
 export class RegistroPage implements OnInit {
 
   // Variables para el formulario
-  usuario: string = '';
+  nickName: string = '';
   correo: string = '';
   correo2: string = '';
-  contrasena: string = '';
+  clave: string = '';
   contrasena2: string = '';
 
   // Variables para mostrar mensajes de validacion
@@ -26,13 +27,14 @@ export class RegistroPage implements OnInit {
   constructor(
     public alertController: AlertController,
     public navCtrl: NavController,
-    public toastController :ToastController,
+    public toastController: ToastController,
+    private bd:ServiciobdService,
   ) { }
 
   ngOnInit() { }
   
   validarUsuario() {
-    if (this.usuario === '') {
+    if (this.nickName === '') {
       this.mensajeUsuario = 'El nombre de usuario es obligatorio';
     }
     else {
@@ -66,16 +68,16 @@ export class RegistroPage implements OnInit {
     const contrasenaValida = /[!@#$%^&*(),.?":{}|<>]/;
     const mayusculaValida = /[A-Z]/;
 
-    if (this.contrasena === '') {
+    if (this.clave === '') {
       this.msjContrasena = 'Debe ingresar una contraseña';
     }
-    else if (this.contrasena.length < 6) {
+    else if (this.clave.length < 6) {
       this.msjContrasena = 'La constraseña debe tener un minimo de 6 caracteres';
     }
-    else if (!mayusculaValida.test(this.contrasena)) {
+    else if (!mayusculaValida.test(this.clave)) {
       this.msjContrasena = 'La contraseña debe tener almenos una mayuscula';
     }
-    else if (!contrasenaValida.test(this.contrasena)) {
+    else if (!contrasenaValida.test(this.clave)) {
       this.msjContrasena = 'La contraseña debe tener almenos un simbolo';
     }
     else {
@@ -84,12 +86,16 @@ export class RegistroPage implements OnInit {
   }
 
   contrasenasIguales() {
-    if (this.contrasena !== this.contrasena2) {
+    if (this.clave !== this.contrasena2) {
       this.msjContrasenasIguales = 'Las contaseñas no coiciden';
     }
     else {
       this.msjContrasenasIguales = '';
     }
+  }
+
+  agregar() {
+    this.bd.agregarUsuario(this.nickName, this.correo, this.clave)
   }
 
   async continuar() {
@@ -106,6 +112,7 @@ export class RegistroPage implements OnInit {
       return;
     }
 
+    this.agregar();
     this.presentToast('bottom');
     this.navCtrl.navigateRoot('/login');
   }

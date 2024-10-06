@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Admin Gestion de contenido</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  
+  <ion-card *ngFor="let x of arregloContenido">
+    <img alt="Sin imagen" [src]="x.foto" />
+    <ion-card-header>
+      <ion-card-title> {{x.titulo}} </ion-card-title>
+    </ion-card-header>
+  
+    <ion-card-content>
+      {{x.texto}}
+    </ion-card-content>
+
+    <ion-button (click)="modificar(x)" color="warning">Editar</ion-button>
+    <ion-button (click)="eliminar(x)" color="danger">Borrar</ion-button>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="agregar()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+</ion-content>

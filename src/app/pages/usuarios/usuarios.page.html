@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Gestion de usuarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list lines="none">
+    <ion-list-header>
+      <ion-label class="header-label">Usuarios</ion-label>
+      <ion-label class="header-label">Correo</ion-label>
+    </ion-list-header>
+
+    <ion-item-sliding *ngFor="let x of arregloUsuario">
+      <ion-item>
+        <ion-label> {{x.id_usuario}} </ion-label>
+        <ion-label> {{x.nickName}} </ion-label>
+        <ion-label> {{x.correo}} </ion-label>
+        <ion-label> ROL: {{x.id_rol}} </ion-label>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger">Bloquear</ion-item-option>
+        <ion-item-option color="warning">Suspender</ion-item-option>
+      </ion-item-options>
+
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>

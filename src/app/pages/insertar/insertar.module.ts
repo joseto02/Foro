@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ElimforoPageRoutingModule } from './elimforo-routing.module';
+import { InsertarPageRoutingModule } from './insertar-routing.module';
 
-import { ElimforoPage } from './elimforo.page';
+import { InsertarPage } from './insertar.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ElimforoPageRoutingModule
+    InsertarPageRoutingModule
   ],
-  declarations: [ElimforoPage]
+  declarations: [InsertarPage]
 })
-export class ElimforoPageModule {}
+export class InsertarPageModule {}

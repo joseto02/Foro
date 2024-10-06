@@ -17,6 +17,8 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.usuarioLogeado = localStorage.getItem('usuarioLogeado') || '';
+    
   }
+  // this.usuarioLogeado = localStorage.getItem('usuarioLogeado') || '';
+
 }

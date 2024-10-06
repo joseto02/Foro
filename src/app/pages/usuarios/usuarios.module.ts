@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BaneoPageRoutingModule } from './baneo-routing.module';
+import { UsuariosPageRoutingModule } from './usuarios-routing.module';
 
-import { BaneoPage } from './baneo.page';
+import { UsuariosPage } from './usuarios.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BaneoPageRoutingModule
+    UsuariosPageRoutingModule
   ],
-  declarations: [BaneoPage]
+  declarations: [UsuariosPage]
 })
-export class BaneoPageModule {}
+export class UsuariosPageModule {}

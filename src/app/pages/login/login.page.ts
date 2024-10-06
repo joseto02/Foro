@@ -49,7 +49,7 @@ export class LoginPage implements OnInit {
       return;
     }
 
-    localStorage.setItem('usuarioLogeado', this.usuario);
+    // localStorage.setItem('usuarioLogeado', this.usuario);
 
     this.presentToast('bottom')
     this.navCtrl.navigateRoot('/home');
