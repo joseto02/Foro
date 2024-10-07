@@ -42,6 +42,7 @@ export class ServiciobdService {
   
   //Tabla usuario
   registroUsuario: string = "INSERT OR IGNORE INTO usuario(id_usuario, nickName, clave, correo, id_rol) VALUES(1, 'admin', 'Duoc2024@', 'jom.gonzalez@duocuc.cl', 1);";
+  registroUsuario2: string = "INSERT OR IGNORE INTO usuario(id_usuario, nickName, clave, correo, id_rol) VALUES(1, 'usuario1', 'Duoc2020@', 'jom.gonzalez@duocuc.cl', 2);";
 
 
   //Variable para guardar los datos de las consultas en las tablas
@@ -147,11 +148,13 @@ export class ServiciobdService {
       await this.conexionBase.executeSql(this.registroTema2, []);
       await this.conexionBase.executeSql(this.registroContenido, []);
       await this.conexionBase.executeSql(this.registroUsuario, []);
+      await this.conexionBase.executeSql(this.registroUsuario2, []);
 
       
 
       this.seleccionarContenido();
       this.seleccionarUsuario();
+      this.seleccionarUsuarioSuspendidos();
 
       //modifico el estado de la base de datos
       this.isBDReady.next(true);
@@ -221,7 +224,7 @@ export class ServiciobdService {
   //CREACION DE USUARIOS
 
   seleccionarUsuario() {
-    return this.conexionBase.executeSql('SELECT * FROM usuario', []).then(res => {
+    return this.conexionBase.executeSql('SELECT * FROM usuario WHERE estado = 1', []).then(res => {
       let items: Usuario[] = [];
       if (res.rows.length > 0) {
         for (var i = 0; i < res.rows.length; i++){
@@ -238,7 +241,26 @@ export class ServiciobdService {
       }
       this.listadoUsuario.next(items as any);
     })
+  }
 
+  seleccionarUsuarioSuspendidos() {
+    return this.conexionBase.executeSql('SELECT * FROM usuario WHERE estado = 0', []).then(res => {
+      let items: Usuario[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_usuario: res.rows.item(i).id_usuario,
+            nickName: res.rows.item(i).nickName,
+            clave: res.rows.item(i).clave,
+            correo: res.rows.item(i).correo,
+            foto: res.rows.item(i).foto,
+            estado: res.rows.item(i).estado,
+            id_rol: res.rows.item(i).id_rol
+          })
+        }
+      }
+      return items;
+    })
   }
 
   agregarUsuario(nickName: string, correo: string , clave: string) {
@@ -250,6 +272,49 @@ export class ServiciobdService {
     })
   }
 
+  suspenderUsuario(id:string) {
+    this.alertaConfirmacion("¿Esta seguro que desea suspender a este usuario?", () => {
+      return this.conexionBase.executeSql('UPDATE usuario SET estado = 0 WHERE id_usuario = ?', [id]).then(res => {
+        this.presentAlert("Ususario suspendido", "El usuario a sido suspendido exitosamente");
+        this.seleccionarUsuario();
+        this.seleccionarUsuarioSuspendidos();
+      }).catch(e => {
+        this.presentAlert('Usuario suspendido', 'ERROR: ' + JSON.stringify(e));
+      })
+    })
+  }
+
+  activarUsuario(id:string) {
+    this.alertaConfirmacion("¿Esta seguro que quiere volver a activar al usuario?", () => {
+      return this.conexionBase.executeSql('UPDATE usuario SET estado = 1 WHERE id_usuario = ?', [id]).then(res => {
+        this.presentAlert("Ususario activado", "El usuario a sido activado exitosamente");
+        this.seleccionarUsuario();
+        this.seleccionarUsuarioSuspendidos();
+      }).catch(e => {
+        this.presentAlert('Usuario activado', 'ERROR: ' + JSON.stringify(e));
+      })
+    })
+  }
+
+  borrarUsuario(id: string) {
+    this.alertaConfirmacion("¿Esta seguro que desea eliminar a este usuario?", () => {
+      return this.conexionBase.executeSql('DELETE FROM usuario WHERE id_usuario = ?', [id]).then(res => {
+        this.presentAlert("Eliminar", "Usuario eliminado permanentemente.");
+        this.seleccionarUsuario();
+        this.seleccionarUsuarioSuspendidos();
+      }).catch(e => {
+        this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
+      })
+    })
+  }
+
+  inicioSesion(nickName: string, clave: string) {
+    return this.conexionBase.executeSql('SELECT * FROM usuario WHERE nickname = ? AND clave = ? AND estado = 1', [nickName, clave]).then(res => {
+      return res.rows.length > 0;
+    }).catch(e => {
+      this.presentAlert('Registro', 'Error: ' + JSON.stringify(e));
+    })
+  }
 
 
 }

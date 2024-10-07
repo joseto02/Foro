@@ -8,6 +8,10 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+
+  usuarioLogeado: boolean = false;
+  rol !: number;
+
   constructor(private router: Router, private alertController: AlertController) { }
   
   irPagina() {
@@ -15,7 +19,6 @@ export class AppComponent {
   }
 
   cerrarSesion() {
-    localStorage.removeItem('usuarioLogeado');
 
     this.mostrarAlerta("Se cerro sesion exitosamente")
     this.router.navigate(['/home'])

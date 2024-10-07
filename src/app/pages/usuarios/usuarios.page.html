@@ -5,25 +5,61 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list lines="none">
-    <ion-list-header>
-      <ion-label class="header-label">Usuarios</ion-label>
-      <ion-label class="header-label">Correo</ion-label>
-    </ion-list-header>
+  <ion-header>
+      <ion-segment [(ngModel)]="selectTabs">
+        <ion-segment-button value="activos">
+          <ion-label>Usuarios activos</ion-label>
+        </ion-segment-button>
 
-    <ion-item-sliding *ngFor="let x of arregloUsuario">
-      <ion-item>
-        <ion-label> {{x.id_usuario}} </ion-label>
-        <ion-label> {{x.nickName}} </ion-label>
-        <ion-label> {{x.correo}} </ion-label>
-        <ion-label> ROL: {{x.id_rol}} </ion-label>
-      </ion-item>
+        <ion-segment-button value="suspendidos">
+          <ion-label>Suspendidos</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+  </ion-header>
 
-      <ion-item-options side="end">
-        <ion-item-option color="danger">Bloquear</ion-item-option>
-        <ion-item-option color="warning">Suspender</ion-item-option>
-      </ion-item-options>
+  <div *ngIf="selectTabs == 'activos'">
+    <ion-list lines="none">
+      <ion-list-header>
+        <ion-label class="header-label">Usuarios</ion-label>
+        <ion-label class="header-label">Correo</ion-label>
+      </ion-list-header>
+    
+      <ion-item-sliding *ngFor="let x of arregloUsuario">
+        <ion-item>
+          <ion-label> {{x.id_usuario}} </ion-label>
+          <ion-label> {{x.nickName}} </ion-label>
+          <ion-label> {{x.correo}} </ion-label>
+        </ion-item>
+    
+        <ion-item-options side="end">
+          <ion-item-option color="warning" (click)="suspender(x)" >Suspender</ion-item-option>
+        </ion-item-options>
+    
+      </ion-item-sliding>
+    </ion-list>
+  </div>
 
-    </ion-item-sliding>
-  </ion-list>
+  <div *ngIf="selectTabs == 'suspendidos'">
+    <ion-list lines="none">
+      <ion-list-header>
+        <ion-label class="header-label">Usuarios</ion-label>
+        <ion-label class="header-label">Correo</ion-label>
+      </ion-list-header>
+    
+      <ion-item-sliding *ngFor="let x of arregloUsuarioSuspendidos">
+        <ion-item>
+          <ion-label> {{x.id_usuario}} </ion-label>
+          <ion-label> {{x.nickName}} </ion-label>
+          <ion-label> {{x.correo}} </ion-label>
+        </ion-item>
+    
+        <ion-item-options side="end">
+          <ion-item-option color="success" (click)="activar(x)">Activar</ion-item-option>
+          <ion-item-option color="danger" (click)="eliminar(x)">Borrar</ion-item-option>
+        </ion-item-options>
+    
+      </ion-item-sliding>
+    </ion-list>
+  </div>
+
 </ion-content>
