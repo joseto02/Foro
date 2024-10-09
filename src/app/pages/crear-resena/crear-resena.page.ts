@@ -1,31 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiciobdService } from 'src/app/services/serviciobd.service';
-import { StorageService } from 'src/app/services/storage.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
 
+
 @Component({
-  selector: 'app-configuracion',
-  templateUrl: './configuracion.page.html',
-  styleUrls: ['./configuracion.page.scss'],
+  selector: 'app-crear-resena',
+  templateUrl: './crear-resena.page.html',
+  styleUrls: ['./crear-resena.page.scss'],
 })
-export class ConfiguracionPage implements OnInit {
+export class CrearResenaPage implements OnInit {
 
-  
-  usuario: string = "";
-  correo: string = "";
-
+  titulo: string = "";
+  texto: string = "";
   foto: any;
 
-  constructor(private storage: StorageService, private db: ServiciobdService) { }
 
-  async ngOnInit() {
+  constructor(private bd: ServiciobdService) { }
 
-    this.storage.getNickName().subscribe(res => {
-      this.usuario = res || '';
-    });
+  ngOnInit() {
+  }
 
-    this.correo = await this.db.getCorreoUsuario(this.usuario);
-    
+  insertar() {
+    this.bd.agregarResena(this.titulo, this.texto, this.foto);
   }
 
   takePicture = async () => {
@@ -42,5 +38,6 @@ export class ConfiguracionPage implements OnInit {
     this.foto = image.webPath;
 
   };
+
 
 }

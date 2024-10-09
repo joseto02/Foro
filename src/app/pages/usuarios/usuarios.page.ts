@@ -41,10 +41,9 @@ export class UsuariosPage implements OnInit {
           this.arregloUsuario = res;
         });
 
-        // Obtener usuarios suspendidos
-        this.bd.seleccionarUsuarioSuspendidos().then(res => {
+        this.bd.fetchUsuarioBloqueado().subscribe(res => {
           this.arregloUsuarioSuspendidos = res;
-        });
+        })
       }
     });
   }

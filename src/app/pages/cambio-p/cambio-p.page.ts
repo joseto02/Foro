@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController, ToastController } from '@ionic/angular';
+import { AlertController, NavController} from '@ionic/angular';
+import { ServiciobdService } from 'src/app/services/serviciobd.service';
 
 @Component({
   selector: 'app-cambio-p',
@@ -16,13 +17,31 @@ export class CambioPPage implements OnInit {
   msjNuevaContrasena: string = '';
   msjContrasenasIguales: string = '';
   
+  arregloUsuario: any = [{
+    id_usuario: '',
+    nickName: '',
+    clave: '',
+    coreo: '',
+    foto: '',
+    estado: '',
+    id_rol: ''
+  }]
+
   constructor(
     private alertController: AlertController,
     private navCtrl: NavController,
-    private toastController :ToastController,
+    private db: ServiciobdService
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.db.dbState().subscribe(data => {
+      if (data) {
+        this.db.fetchUsuario().subscribe(res => {
+          this.arregloUsuario = res;
+        })
+      }
+    })
+  }
 
   validarContrasena() {
     if (this.contrasenaActual === '') {
@@ -65,6 +84,10 @@ export class CambioPPage implements OnInit {
       this.msjContrasenasIguales = '';
     }
   }
+
+  modificarContrasena() {
+    
+  }
   
   async continuar() {
     
@@ -78,7 +101,7 @@ export class CambioPPage implements OnInit {
       return;
     } 
 
-    this.presentToast('bottom')
+    
     this.navCtrl.navigateRoot('/home');
     
   }
@@ -91,13 +114,5 @@ export class CambioPPage implements OnInit {
     });
     await alert.present();
   }
-  async presentToast(position: 'top' | 'middle' | 'bottom') {
-    const toast = await this.toastController.create({
-      message: 'La Contraseña Se  Actualizo correctamente',
-      duration: 1500,
-      position: position,
-    });
-
-    await toast.present();
-  }
+  
 }

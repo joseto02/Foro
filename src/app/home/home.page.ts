@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { StorageService } from '../services/storage.service';
+
+
 
 @Component({
   selector: 'app-home',
@@ -8,17 +10,17 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
 
-  usuarioLogeado: string = '';
+  nombre: string = '';
 
-  constructor(private router:Router) {}
+  constructor(private storage: StorageService) {}
 
-  irPagina() {
-    this.router.navigate(['/login'])
-  }
 
-  ngOnInit() {
+  async ngOnInit() {
+    
+    this.storage.getNickName().subscribe(res => {
+      this.nombre = res || '';
+    });
     
   }
-  // this.usuarioLogeado = localStorage.getItem('usuarioLogeado') || '';
 
 }

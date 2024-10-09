@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { ServiciobdService } from './services/serviciobd.service';
+import { StorageService } from './services/storage.service';
+
 
 @Component({
   selector: 'app-root',
@@ -10,28 +12,35 @@ import { AlertController } from '@ionic/angular';
 export class AppComponent {
 
   usuarioLogeado: boolean = false;
-  rol !: number;
+  esAdmin: boolean = false;
 
-  constructor(private router: Router, private alertController: AlertController) { }
+  constructor(private router: Router, private storage: StorageService, private db: ServiciobdService) {
+    
+    this.db.dbState().subscribe(data => {
+      if (data) {
+        this.db.estadoUsuario().subscribe(res => {
+          this.usuarioLogeado = res;
+        });
+
+        this.db.getRolUsuario().subscribe(rol => {
+          if (rol !== null) {
+            this.esAdmin = rol == 1;
+          } else {
+            this.esAdmin = false;
+          }
+        });
+      }
+    })
+  }
   
-  irPagina() {
-    this.router.navigate(['/login'])
+
+  async cerrarSesion() {
+
+    await this.db.cerrarSesion();
+    await this.storage.borrarStorage(); 
+    await this.router.navigate(['/home'])
   }
 
-  cerrarSesion() {
-
-    this.mostrarAlerta("Se cerro sesion exitosamente")
-    this.router.navigate(['/home'])
-  }
-
-  async mostrarAlerta(mensaje: string) {
-    const alert = await this.alertController.create({
-      // header: 'No se ha podido procesar tu solicitud',
-      message: mensaje,
-      buttons: ['OK']
-    });
-    await alert.present();
-  }
 
 
 }

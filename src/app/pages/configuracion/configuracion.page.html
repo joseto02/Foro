@@ -10,13 +10,17 @@
 
 <ion-content [fullscreen]="true">
   <div class="fondo">
+    
     <div class="contenedor-perfil">
-      <img src="../../../assets/portadas/profile.png" alt="fondo de perfil" class="imagen-perfil">
+      <ion-button fill="clear" class="boton-icono" (click)="takePicture()">
+        <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+      </ion-button>
+      <img [src]="foto" class="imagen-perfil">
     </div>
     
     <div class="datos">
-      <p>Usuario: usuario1</p>
-      <p>Correo: usuario&#64;ejemplo.com</p>
+      <p>Usuario: {{usuario}}</p>
+      <p>Correo: {{correo}}</p>
     </div>
     
     <ion-item [routerLink]="['/cambio-p']">

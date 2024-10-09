@@ -13,6 +13,10 @@
     <ion-input label="Texto contenido" labelPlacement="floating" placeholder="Ingrese texto"
       [(ngModel)]="contenido.texto"></ion-input>
   </ion-item>
+  <ion-item>
+    <ion-button color="warning" (click)="takePicture()">Cambiar foto</ion-button>
+    <img [src]="contenido.foto" alt="sin foto">
+  </ion-item>
   <ion-button color="success" [routerLink]="['/crear-contenido']" (click)="modificar()">Modificar contenido</ion-button>
   <ion-button color="danger" [routerLink]="['/crear-contenido']">Cancelar</ion-button>
 </ion-content>

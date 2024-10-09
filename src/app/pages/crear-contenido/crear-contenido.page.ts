@@ -9,7 +9,17 @@ import { ServiciobdService } from 'src/app/services/serviciobd.service';
 })
 export class CrearContenidoPage implements OnInit {
 
+  tipoContenido = "noticias";
+
   arregloContenido: any = [{
+    id_contenido: '',
+    titulo: '',
+    texto: '',
+    foto: '',
+    id_tema: ''
+  }]
+
+  arregloResenas: any = [{
     id_contenido: '',
     titulo: '',
     texto: '',
@@ -24,8 +34,12 @@ export class CrearContenidoPage implements OnInit {
       //validar si la bd esta lista
       if (data) {
         //suscribir al observable de la listaContenido
-        this.bd.fetchContenido().subscribe(res => {
+        this.bd.fetchNoticia().subscribe(res => {
           this.arregloContenido = res;
+        })
+
+        this.bd.fetchResena().subscribe(res => {
+          this.arregloResenas = res;
         })
       }
     })
@@ -44,8 +58,12 @@ export class CrearContenidoPage implements OnInit {
     this.bd.eliminarContenido(x.id_contenido);
   }
 
-  agregar() {
+  agregarNoticia() {
     this.router.navigate(['/insertar']);
+  }
+
+  agregarResena() {
+    this.router.navigate(['/crear-resena'])
   }
 
 }

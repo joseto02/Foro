@@ -11,7 +11,7 @@
           <img src="../assets/portadas/Logo99.jfif" alt="">
           <ion-item>
             <ion-icon slot="start" name="home-outline"></ion-icon>
-            <ion-label [routerLink]="['/home']">Pagina principal</ion-label>
+            <ion-label [routerLink]="['/home']">Página principal</ion-label>
           </ion-item>
           <ion-item>
             <ion-icon slot="start" name="game-controller-outline"></ion-icon>
@@ -21,34 +21,34 @@
             <ion-icon slot="start" name="newspaper-sharp"></ion-icon>
             <ion-label [routerLink]="['/noticias']">Noticias</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item *ngIf="usuarioLogeado">
             <ion-icon slot="start" name="star-outline"></ion-icon>
             <ion-label [routerLink]="['/favorito']">Favoritos</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item *ngIf="!usuarioLogeado">
             <ion-icon slot="start" name="person"></ion-icon>
-            <ion-label (click)="irPagina()">Iniciar sesión</ion-label>
+            <ion-label [routerLink]="['/login']">Iniciar sesión</ion-label>
           </ion-item>
           <ion-item [routerLink]="['/registro']">
             <ion-icon slot="start" name="person-add"></ion-icon>
             <ion-label>Registrarse</ion-label>
           </ion-item>
-          <ion-item>
+          <ion-item *ngIf="usuarioLogeado">
             <ion-icon slot="start" name="help-outline"></ion-icon>
             <ion-label [routerLink]="['/ayuda']">Ayuda</ion-label>
           </ion-item>
-          <ion-item  [routerLink]="['/configuracion']">
+          <ion-item *ngIf="usuarioLogeado" [routerLink]="['/configuracion']">
             <ion-icon slot="start" name="person-circle-outline"></ion-icon>
             <ion-label>Editar perfil</ion-label>
           </ion-item>
-          <ion-item (click)="cerrarSesion()">
-            <ion-icon slot="start" name="close-outline"></ion-icon>
+          <ion-item *ngIf="usuarioLogeado" (click)="cerrarSesion()">
+            <ion-icon slot="start" name="close-outline" color="danger"></ion-icon>
             <ion-label>Cerrar sesión</ion-label>
           </ion-item>
           <ion-item class="ionic" [routerLink]="['/termino']">
             <ion-label>Terminos y Condiciones</ion-label>
           </ion-item>
-          <ion-item [routerLink]="['/admin']">
+          <ion-item *ngIf="esAdmin" [routerLink]="['/admin']">
             <ion-label>Admin</ion-label>
           </ion-item>
         </ion-list>

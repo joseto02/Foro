@@ -1,22 +1,24 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Agregar Noticia</ion-title>
+    <ion-title>Agregar reseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <ion-item>
-    <ion-input label="Titulo de la noticia" labelPlacement="floating" placeholder="Ingrese titulo"
+    <ion-input label="Titulo de la reseña" labelPlacement="floating" placeholder="Ingrese titulo"
       [(ngModel)]="titulo"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-input label="Texto de la noticia" labelPlacement="floating" placeholder="Ingrese texto"
+    <ion-input label="Texto de la reseña" labelPlacement="floating" placeholder="Ingrese texto"
       [(ngModel)]="texto"></ion-input>
   </ion-item>
   <ion-item>
     <ion-button color="warning" (click)="takePicture()">Agregar foto</ion-button>
-    <img *ngIf="foto" [src]="foto" alt="sin foto" >
+    <img *ngIf="foto" [src]="foto" alt="sin foto">
   </ion-item>
-  <ion-button color="success" [routerLink]="['/crear-contenido']" (click)="insertar()">Agregar noticia</ion-button>
+  <ion-button color="success" [routerLink]="['/crear-contenido']" (click)="insertar()">Agregar reseña</ion-button>
   <ion-button color="danger" [routerLink]="['/crear-contenido']">Cancelar</ion-button>
+
 </ion-content>

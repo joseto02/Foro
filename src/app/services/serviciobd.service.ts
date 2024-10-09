@@ -42,53 +42,25 @@ export class ServiciobdService {
   
   //Tabla usuario
   registroUsuario: string = "INSERT OR IGNORE INTO usuario(id_usuario, nickName, clave, correo, id_rol) VALUES(1, 'admin', 'Duoc2024@', 'jom.gonzalez@duocuc.cl', 1);";
-  registroUsuario2: string = "INSERT OR IGNORE INTO usuario(id_usuario, nickName, clave, correo, id_rol) VALUES(1, 'usuario1', 'Duoc2020@', 'jom.gonzalez@duocuc.cl', 2);";
+  registroUsuario2: string = "INSERT OR IGNORE INTO usuario(id_usuario, nickName, clave, correo, id_rol) VALUES(2, 'usuario1', 'Duoc2020@', 'jom.gonzalez@duocuc.cl', 2);";
 
 
   //Variable para guardar los datos de las consultas en las tablas
   listadoRol = new BehaviorSubject([]);
+
   listadoTema = new BehaviorSubject([]);
-  listadoContenido = new BehaviorSubject([]);
+
+  listadoNoticia = new BehaviorSubject([]);
+  listadoResena = new BehaviorSubject([]);
+
   listadoUsuario = new BehaviorSubject([]);
+  listadoUsuarioBan = new BehaviorSubject([]);
 
   //Variable para el status de la base de datos
   private isBDReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
   constructor(private sqlite: SQLite, private platform: Platform, private alertController: AlertController) { 
     this.createBD();
-  }
-
-  async presentAlert(titulo: string, msj: string) {
-    const alert = await this.alertController.create({
-      header: titulo,
-      message: msj,
-      buttons: ['OK'],
-    });
-
-    await alert.present();
-  }
-
-  async alertaConfirmacion(titulo: string, confirmar: Function) {
-    const alert = await this.alertController.create({
-      header: titulo,
-      buttons: [
-        {
-          text: 'CANCELAR',
-          role: 'cancel',
-          handler: () => {
-            console.log('Accion cancelada');
-          }
-        },
-        {
-          text: 'CONFIRMAR',
-          handler: () => {
-            confirmar();
-          }
-        }
-      ],
-    });
-
-    await alert.present();
   }
 
   //Metodos para manipular los observables
@@ -100,12 +72,20 @@ export class ServiciobdService {
     return this.listadoTema.asObservable();
   }
 
-  fetchContenido(): Observable<Contenido[]>{
-    return this.listadoContenido.asObservable();
+  fetchNoticia(): Observable<Contenido[]>{
+    return this.listadoNoticia.asObservable();
+  }
+
+  fetchResena(): Observable<Contenido[]>{
+    return this.listadoResena.asObservable();
   }
 
   fetchUsuario(): Observable<Usuario[]>{
     return this.listadoUsuario.asObservable();
+  }
+
+  fetchUsuarioBloqueado(): Observable<Usuario[]>{
+    return this.listadoUsuarioBan.asObservable();
   }
 
   dbState() {
@@ -152,7 +132,8 @@ export class ServiciobdService {
 
       
 
-      this.seleccionarContenido();
+      this.mostrarNoticia();
+      this.mostrarResena();
       this.seleccionarUsuario();
       this.seleccionarUsuarioSuspendidos();
 
@@ -167,8 +148,9 @@ export class ServiciobdService {
   //METODOS PARA EL ADMINISTRADOR
 
   //Gestion de contenidos (NOTICIAS Y RESEÑAS)
-  seleccionarContenido() {
-    return this.conexionBase.executeSql('SELECT * FROM contenido', []).then(res => {
+
+  mostrarNoticia() {
+    return this.conexionBase.executeSql('SELECT * FROM contenido WHERE id_tema = 1', []).then(res => {
       //variable para almacenar el resultado de la consulta
       let items: Contenido[] = [];
       //valido si trae al menos un registro
@@ -187,35 +169,74 @@ export class ServiciobdService {
 
       }
       //actualizar el observable
-      this.listadoContenido.next(items as any);
+      this.listadoNoticia.next(items as any);
 
     })
   }
+
+  mostrarResena() {
+    return this.conexionBase.executeSql('SELECT * FROM contenido WHERE id_tema = 2', []).then(res => {
+      //variable para almacenar el resultado de la consulta
+      let items: Contenido[] = [];
+      //valido si trae al menos un registro
+      if (res.rows.length > 0) {
+        //recorro mi resultado
+        for (var i = 0; i < res.rows.length; i++) {
+          //agrego los registros a mi lista
+          items.push({
+            id_contenido: res.rows.item(i).id_contenido,
+            titulo: res.rows.item(i).titulo,
+            texto: res.rows.item(i).texto,
+            foto: res.rows.item(i).foto,
+            id_tema: res.rows.item(i).id_tema
+          })
+        }
+
+      }
+      //actualizar el observable
+      this.listadoResena.next(items as any);
+
+    })
+  }
+
 
   eliminarContenido(id: string) {
     this.alertaConfirmacion("¿Esta seguro que desea eliminar este contenido?", () => {
       return this.conexionBase.executeSql('DELETE FROM contenido WHERE id_contenido = ?', [id]).then(res => {
         this.presentAlert("Eliminar", "Contenido eliminado");
-        this.seleccionarContenido();
+        this.mostrarNoticia();
+        this.mostrarResena();
       }).catch(e => {
         this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
       })
     })
   }
 
-  modificarContenido(id:string, titulo:string, texto:string) {
-    return this.conexionBase.executeSql('UPDATE contenido SET titulo = ?, texto = ? WHERE id_contenido = ?', [titulo, texto, id]).then(res => {
-      this.presentAlert("Modificar", "Noticia modificada");
-      this.seleccionarContenido();
+  modificarContenido(id:string, titulo:string, texto:string, foto: string) {
+    return this.conexionBase.executeSql('UPDATE contenido SET titulo = ?, texto = ?, foto = ? WHERE id_contenido = ?', [titulo, texto, foto, id]).then(res => {
+      this.presentAlert("Modificar", "Contenido Modificado");
+      this.mostrarNoticia();
+      this.mostrarResena();
     }).catch(e => {
       this.presentAlert('Eliminar', 'Error: ' + JSON.stringify(e));
     })
   }
 
-  agregarContenido(titulo:string, texto: string, id_tema:number) {
-    return this.conexionBase.executeSql('INSERT INTO contenido(titulo, texto, id_tema) VALUES (?,?,?)', [titulo, texto, id_tema]).then(res => {
-      this.presentAlert("Insertar", "Noticia agregada");
-      this.seleccionarContenido();
+  agregarNoticia(titulo:string, texto: string, foto:any) {
+    return this.conexionBase.executeSql('INSERT INTO contenido(titulo, texto, foto, id_tema) VALUES (?,?,?,1)', [titulo, texto, foto]).then(res => {
+      this.presentAlert("Noticia", "Noticia agregada exitosamente");
+      this.mostrarNoticia();
+      this.mostrarResena();
+    }).catch(e => {
+      this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+  agregarResena(titulo: string, texto: string, foto: any) {
+    return this.conexionBase.executeSql('INSERT INTO contenido(titulo, texto, foto, id_tema) VALUES (?,?,?,2)', [titulo, texto, foto]).then(res => {
+      this.presentAlert("Reseña", "Reseña agregada exitosamente");
+      this.mostrarNoticia();
+      this.mostrarResena();
     }).catch(e => {
       this.presentAlert('Insertar', 'Error: ' + JSON.stringify(e));
     })
@@ -259,8 +280,21 @@ export class ServiciobdService {
           })
         }
       }
-      return items;
+      this.listadoUsuarioBan.next(items as any);
     })
+  }
+
+  getCorreoUsuario(nickName: string) { 
+    return this.conexionBase.executeSql('SELECT correo FROM usuario WHERE nickname = ?', [nickName]).then(res => {
+      if (res.rows.length > 0) {
+        return res.rows.item(0).correo;
+      } else {
+        return null;
+      }
+    }).catch(e => {
+      console.error('Error al obtener el correo: ', e);
+      return null;
+    });
   }
 
   agregarUsuario(nickName: string, correo: string , clave: string) {
@@ -308,13 +342,105 @@ export class ServiciobdService {
     })
   }
 
+  //Metodo para saber si el usuario esta logeado
+  private usuarioLogeado = new BehaviorSubject<boolean>(false);
+  private rolUsuario = new BehaviorSubject<number | null>(null);
+
+  estadoUsuario() {
+    return this.usuarioLogeado.asObservable();
+  }
+
+  getRolUsuario() {
+    return this.rolUsuario.asObservable();
+  }
+
   inicioSesion(nickName: string, clave: string) {
     return this.conexionBase.executeSql('SELECT * FROM usuario WHERE nickname = ? AND clave = ? AND estado = 1', [nickName, clave]).then(res => {
-      return res.rows.length > 0;
+      if (res.rows.length > 0) {
+        const usuario = res.rows.item(0);
+        this.usuarioLogeado.next(true);
+        this.rolUsuario.next(usuario.id_rol);
+        return true;
+      } else {
+        this.usuarioLogeado.next(false);
+        this.rolUsuario.next(null);
+        return false;
+      }
     }).catch(e => {
       this.presentAlert('Registro', 'Error: ' + JSON.stringify(e));
+      this.usuarioLogeado.next(false);
+      this.rolUsuario.next(null);
     })
   }
+
+  cerrarSesion() {
+    this.alertaConfirmacion("¿Esta seguro que quiere cerrar sesion?", () => {
+      this.usuarioLogeado.next(false);
+      this.rolUsuario.next(null);
+      this.presentAlert('Cerrar sesión', 'Se cerro sesión exitosamente.');
+    }).catch(e => {
+      this.presentAlert('Cerrar sesión', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
+
+  cambiarContrasena(id:string, clave:string) {
+    this.alertaConfirmacion("¿Esta seguro que desea cambiar su clave?", () => {
+      return this.conexionBase.executeSql('UPDATE usuario SET clave = ? WHERE id_usuario = ?', [clave, id]).then(res => {
+        this.presentAlert("Cambio de contraseña", "Contraseña cambiada exitosamente");
+        this.seleccionarUsuario();
+      }).catch(e => {
+        this.presentAlert('Cambio de contraseña', 'Error: ' + JSON.stringify(e));
+      })
+    })
+  }
+
+  cambioCorreo(id:string, correo: string) {
+    this.alertaConfirmacion("¿Esta seguro que desea cambiar su correo?", () => {
+      return this.conexionBase.executeSql('UPDATE usuario SET correo = ? WHERE id_usuario = ?', [correo, id]).then(res => {
+        this.presentAlert("Cambio de correo", "Correo cambiado exitosamente");
+        this.seleccionarUsuario();
+      }).catch(e => {
+        this.presentAlert('Cambio de correo', 'Error: ' + JSON.stringify(e));
+      })
+    })
+  }
+
+
+
+  async presentAlert(titulo: string, msj: string) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      message: msj,
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+
+  async alertaConfirmacion(titulo: string, confirmar: Function) {
+    const alert = await this.alertController.create({
+      header: titulo,
+      buttons: [
+        {
+          text: 'CANCELAR',
+          role: 'cancel',
+          handler: () => {
+            console.log('Accion cancelada');
+          }
+        },
+        {
+          text: 'CONFIRMAR',
+          handler: () => {
+            confirmar();
+          }
+        }
+      ],
+    });
+
+    await alert.present();
+  }
+
 
 
 }

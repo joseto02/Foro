@@ -108,9 +108,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/usuarios/usuarios.module').then(m => m.UsuariosPageModule)
   },
   {
+    path: 'crear-resena',
+    loadChildren: () => import('./pages/crear-resena/crear-resena.module').then(m => m.CrearResenaPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
   },
+
 
 ];
 

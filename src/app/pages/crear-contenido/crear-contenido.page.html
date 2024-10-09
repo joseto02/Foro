@@ -1,29 +1,75 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Admin Gestion de contenido</ion-title>
+    <ion-title>Gestión de contenido</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
-  <ion-card *ngFor="let x of arregloContenido">
-    <img alt="Sin imagen" [src]="x.foto" />
-    <ion-card-header>
-      <ion-card-title> {{x.titulo}} </ion-card-title>
-    </ion-card-header>
-  
-    <ion-card-content>
-      {{x.texto}}
-    </ion-card-content>
 
-    <ion-button (click)="modificar(x)" color="warning">Editar</ion-button>
-    <ion-button (click)="eliminar(x)" color="danger">Borrar</ion-button>
-  </ion-card>
+  <ion-header>
+    <ion-segment [(ngModel)]="tipoContenido">
+      <ion-segment-button value="noticias">
+        <ion-label>Noticias</ion-label>
+      </ion-segment-button>
+  
+      <ion-segment-button value="reseñas">
+        <ion-label>Reseñas</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-header>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button (click)="agregar()">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  <div *ngIf="tipoContenido == 'noticias'">
+    <ion-card *ngFor="let x of arregloContenido">
+      <div style="position: relative;">
+        <ion-icon name="star-outline" style="position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer;"
+          color="warning"></ion-icon>
+        <img alt="Sin imagen" [src]="x.foto"/>
+      </div>
+      <ion-card-header>
+        <ion-card-title> {{x.titulo}} </ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        {{x.texto}}
+      </ion-card-content>
+    
+      <ion-button (click)="modificar(x)" color="warning">Editar</ion-button>
+      <ion-button (click)="eliminar(x)" color="danger">Borrar</ion-button>
+    </ion-card>
+    
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="agregarNoticia()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+
+  <div *ngIf="tipoContenido == 'reseñas'">
+    <ion-card *ngFor="let x of arregloResenas">
+      <div style="position: relative;">
+        <ion-icon name="star-outline" style="position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer;"
+          color="warning"></ion-icon>
+        <img alt="Sin imagen" [src]="x.foto" />
+      </div>
+      <ion-card-header>
+        <ion-card-title> {{x.titulo}} </ion-card-title>
+      </ion-card-header>
+    
+      <ion-card-content>
+        {{x.texto}}
+      </ion-card-content>
+    
+      <ion-button (click)="modificar(x)" color="warning">Editar</ion-button>
+      <ion-button (click)="eliminar(x)" color="danger">Borrar</ion-button>
+    </ion-card>
+    
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="agregarResena()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
+  </div>
+  
+  
 
 </ion-content>

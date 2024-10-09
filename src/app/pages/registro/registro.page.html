@@ -30,7 +30,7 @@
       
       <ion-item>
         <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
-        <ion-input [(ngModel)]="clave" (ngModelChange)="validarContrasena()" type="password" label="Contraseña:" value="">
+        <ion-input [(ngModel)]="clave" (ngModelChange)="validarContrasena()" type="password" placeholder="Contraseña:">
           <ion-input-password-toggle slot="end"></ion-input-password-toggle>
         </ion-input>
       </ion-item>
@@ -38,7 +38,7 @@
 
       <ion-item>
         <ion-icon slot="start" name="lock-closed-sharp"></ion-icon>
-        <ion-input [(ngModel)]="contrasena2" (ngModelChange)="contrasenasIguales()" type="password" placeholder="Confirmar contraseña:" value="">
+        <ion-input [(ngModel)]="contrasena2" (ngModelChange)="contrasenasIguales()" type="password" placeholder="Confirmar contraseña:">
           <ion-input-password-toggle slot="end"></ion-input-password-toggle>
         </ion-input>
       </ion-item>

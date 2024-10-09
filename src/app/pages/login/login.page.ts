@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController, NavController, ToastController } from '@ionic/angular';
 import { ServiciobdService } from 'src/app/services/serviciobd.service';
+import { StorageService } from 'src/app/services/storage.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -20,6 +21,7 @@ export class LoginPage implements OnInit {
     public alertController: AlertController,
     public navCtrl: NavController,
     private bd: ServiciobdService,
+    private storage: StorageService,
   ) {}
 
   ngOnInit() { }
@@ -68,11 +70,12 @@ export class LoginPage implements OnInit {
       return;
     }
 
-
+    await this.storage.setStorage(this.nickName);
     this.presentToast('bottom');
     this.navCtrl.navigateRoot('/home');
     
   }
+
 
   async mostrarAlerta(titulo: string, mensaje: string) {
     const alert = await this.alertController.create({
