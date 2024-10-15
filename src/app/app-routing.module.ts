@@ -112,10 +112,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/crear-resena/crear-resena.module').then(m => m.CrearResenaPageModule)
   },
   {
+    path: 'foro-agregar',
+    loadChildren: () => import('./pages/foro-agregar/foro-agregar.module').then(m => m.ForoAgregarPageModule)
+  },
+  {
+    path: 'admin-foro',
+    loadChildren: () => import('./pages/admin-foro/admin-foro.module').then(m => m.AdminForoPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
   },
-
 
 ];
 

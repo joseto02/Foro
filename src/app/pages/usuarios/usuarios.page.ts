@@ -31,7 +31,7 @@ export class UsuariosPage implements OnInit {
     id_rol: ''
   }]
 
-  constructor(private bd: ServiciobdService, private router: Router) { }
+  constructor(private bd: ServiciobdService) { }
 
   ngOnInit() {
     this.bd.dbState().subscribe(data => {

@@ -8,10 +8,10 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
-  <div id="container">
+  <div id="container" *ngFor="let x of arregloPerfil">
     
     <ion-item>
-      <ion-input [(ngModel)]="correoActual" (ngModelChange)="validarCorreo()" label="Correo actual:" type="email"></ion-input>
+      <ion-input [(ngModel)]="correoIngresado" (ngModelChange)="validarCorreo()" label="Correo actual:" type="email"></ion-input>
     </ion-item>
     <p *ngIf="msjCorreoActual" class="error"> {{msjCorreoActual}} </p>
     

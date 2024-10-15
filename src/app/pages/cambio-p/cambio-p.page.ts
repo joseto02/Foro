@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController, NavController} from '@ionic/angular';
+import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 import { ServiciobdService } from 'src/app/services/serviciobd.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-cambio-p',
@@ -9,6 +11,7 @@ import { ServiciobdService } from 'src/app/services/serviciobd.service';
 })
 export class CambioPPage implements OnInit {
   contrasenaActual: string = '';
+  contrasenaIngresada: string = '';
   newPassword: string = '';
   password2: string = '';
 
@@ -16,36 +19,35 @@ export class CambioPPage implements OnInit {
   msjContrasena: string = '';
   msjNuevaContrasena: string = '';
   msjContrasenasIguales: string = '';
+
+  usuario: string = "";
+  id: string = "";
+
   
-  arregloUsuario: any = [{
-    id_usuario: '',
-    nickName: '',
-    clave: '',
-    coreo: '',
-    foto: '',
-    estado: '',
-    id_rol: ''
-  }]
+  
 
-  constructor(
-    private alertController: AlertController,
-    private navCtrl: NavController,
-    private db: ServiciobdService
-  ) { }
+  constructor(private db: ServiciobdService, private router: Router, private storage: StorageService, private toastController: ToastController) {}
 
-  ngOnInit() {
-    this.db.dbState().subscribe(data => {
-      if (data) {
-        this.db.fetchUsuario().subscribe(res => {
-          this.arregloUsuario = res;
-        })
-      }
+  async ngOnInit() {
+
+    this.storage.getNickName().subscribe(res => {
+      this.usuario = res || '';
     })
+
+    //id del usaurio
+    this.id = await this.db.obtenerIdUsuario(this.usuario);
+
+    //clave actual
+    this.contrasenaActual = await this.db.obtenerClave(this.usuario);
+
   }
 
   validarContrasena() {
-    if (this.contrasenaActual === '') {
-      this.msjContrasena = 'Debe ingresar su contraseña actual';
+    if (this.contrasenaIngresada === '') {
+      this.msjContrasena = 'Este campo es obligatorio';
+    }
+    else if (this.contrasenaIngresada !== this.contrasenaActual) {
+      this.msjContrasena = 'Su contraseña actual no coincide';
     }
     else {
       this.msjContrasena = '';
@@ -85,9 +87,7 @@ export class CambioPPage implements OnInit {
     }
   }
 
-  modificarContrasena() {
-    
-  }
+
   
   async continuar() {
     
@@ -101,18 +101,22 @@ export class CambioPPage implements OnInit {
       return;
     } 
 
-    
-    this.navCtrl.navigateRoot('/home');
+    await this.db.cambiarContrasena(this.id, this.newPassword);
+    await this.router.navigate(['/configuracion']);
+    await this.presentToast("middle");
     
   }
 
-  async mostrarAlerta(mensaje: string) {
-    const alert = await this.alertController.create({
-      header: 'No se ha podido procesar tu solicitud',
-      message: '¡debe rellenar las casillas! ',
-      buttons: ['OK']
+
+  async presentToast(position: 'top' | 'middle' | 'bottom') {
+    const toast = await this.toastController.create({
+      message: 'Se cambio la contraseña exitosamente',
+      duration: 1500,
+      position: position,
     });
-    await alert.present();
+
+    await toast.present();
   }
+
   
 }

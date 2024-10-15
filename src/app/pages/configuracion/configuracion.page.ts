@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ServiciobdService } from 'src/app/services/serviciobd.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-configuracion',
@@ -12,21 +13,36 @@ export class ConfiguracionPage implements OnInit {
 
   
   usuario: string = "";
-  correo: string = "";
-
+  id_perfil: string = "";
+  arregloPerfil: any = [];
   foto: any;
 
   constructor(private storage: StorageService, private db: ServiciobdService) { }
 
   async ngOnInit() {
 
+    //obetenemos el nombre de usuario por local storage
     this.storage.getNickName().subscribe(res => {
       this.usuario = res || '';
     });
 
-    this.correo = await this.db.getCorreoUsuario(this.usuario);
-    
+    //metodo para obtener el id del usario
+    this.id_perfil = await this.db.obtenerIdUsuario(this.usuario);
+
+    this.db.dbState().subscribe(data => {
+      if (data) {
+
+        this.db.fetchPerfil().subscribe(res => {
+          this.arregloPerfil = res;
+        })
+
+        this.db.seleccionarPerfil(this.id_perfil);
+
+      }
+
+    })
   }
+
 
   takePicture = async () => {
     const image = await Camera.getPhoto({
@@ -35,12 +51,17 @@ export class ConfiguracionPage implements OnInit {
       resultType: CameraResultType.Uri
     });
 
-    // image.webPath will contain a path that can be set as an image src.
-    // You can access the original file using image.path, which can be
-    // passed to the Filesystem API to read the raw data of the image,
-    // if desired (or pass resultType: CameraResultType.Base64 to getPhoto)
+
     this.foto = image.webPath;
 
+    //le pasamos la foto y el id de usuario al metodo
+    this.db.guardarFotoPerfil(this.foto, this.id_perfil);
+
+    //aqui se actualiza la foto en tiempo real
+    this.db.seleccionarPerfil(this.id_perfil);
+
   };
+
+
 
 }

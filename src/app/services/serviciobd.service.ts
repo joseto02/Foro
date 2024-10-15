@@ -6,6 +6,7 @@ import { Rol } from '../model/rol';
 import { Tema } from '../model/tema';
 import { Contenido } from '../model/contenido';
 import { Usuario } from '../model/usuario';
+import { Foro } from '../model/foro';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,7 @@ export class ServiciobdService {
   //tablas con claves foraneas
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nickName VARCHAR(35) NOT NULL, clave VARCHAR(50) NOT NULL, correo VARCHAR(100) NOT NULL, foto VARCHAR(100), estado INTEGER DEFAULT 1, id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol(id_rol));";
   tablaContenido: string = "CREATE TABLE IF NOT EXISTS contenido(id_contenido INTEGER PRIMARY KEY AUTOINCREMENT, titulo VARCHAR(40) NOT NULL, texto TEXT NOT NULL, foto VARCHAR(100), id_tema INTEGER, FOREIGN KEY(id_tema) REFERENCES tema(id_tema));";
+  tablaForo: string = "CREATE TABLE IF NOT EXISTS foro(id_foro INTEGER PRIMARY KEY AUTOINCREMENT, titulo VARCHAR(100), autor VARCHAR(50), texto TEXT, id_usuario INTEGER, FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE)";
   tablaComentario: string = "CREATE TABLE IF NOT EXISTS comentario(id_comentario INTEGER PRIMARY KEY AUTOINCREMENT, fecha_comentario VARCHAR(10), texto TEXT NOT NULL, id_usuario INTEGER, FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE, id_contenido INTEGER, FOREIGN KEY(id_contenido) REFERENCES contenido(id_contenido) ON DELETE CASCADE);";
   tablaFavoritos: string = "CREATE TABLE IF NOT EXISTS favorito(id_favorito INTEGER PRIMARY KEY AUTOINCREMENT, fecha_agregado VARCHAR(10), id_usuario INTEGER, FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE, id_contenido INTEGER, FOREIGN KEY(id_contenido) REFERENCES contenido(id_contenido) ON DELETE CASCADE);";
 
@@ -44,17 +46,22 @@ export class ServiciobdService {
   registroUsuario: string = "INSERT OR IGNORE INTO usuario(id_usuario, nickName, clave, correo, id_rol) VALUES(1, 'admin', 'Duoc2024@', 'jom.gonzalez@duocuc.cl', 1);";
   registroUsuario2: string = "INSERT OR IGNORE INTO usuario(id_usuario, nickName, clave, correo, id_rol) VALUES(2, 'usuario1', 'Duoc2020@', 'jom.gonzalez@duocuc.cl', 2);";
 
+  //tabla foto
+  // registroForo: string = "INSERT OR IGNORE INTO foro(id_foro, titulo, autor, texto, id_usuario) VALUES(1, 'FORO DE PRUEBA', 'Autor de Prueba', 'Aca va todo el texto del foro', 1);";
+
+  borrarForo: string = "DROP TABLE foro;";
+
 
   //Variable para guardar los datos de las consultas en las tablas
-  listadoRol = new BehaviorSubject([]);
-
-  listadoTema = new BehaviorSubject([]);
 
   listadoNoticia = new BehaviorSubject([]);
   listadoResena = new BehaviorSubject([]);
 
   listadoUsuario = new BehaviorSubject([]);
   listadoUsuarioBan = new BehaviorSubject([]);
+  listaPerfil = new BehaviorSubject([]);
+
+  listaForo = new BehaviorSubject([]);
 
   //Variable para el status de la base de datos
   private isBDReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -64,13 +71,6 @@ export class ServiciobdService {
   }
 
   //Metodos para manipular los observables
-  fetchRol(): Observable<Rol[]>{
-    return this.listadoRol.asObservable();
-  }
-
-  fetchTema(): Observable<Tema[]>{
-    return this.listadoTema.asObservable();
-  }
 
   fetchNoticia(): Observable<Contenido[]>{
     return this.listadoNoticia.asObservable();
@@ -86,6 +86,14 @@ export class ServiciobdService {
 
   fetchUsuarioBloqueado(): Observable<Usuario[]>{
     return this.listadoUsuarioBan.asObservable();
+  }
+
+  fetchPerfil(): Observable<Usuario[]>{
+    return this.listaPerfil.asObservable();
+  }
+
+  fetchForo(): Observable<Foro[]>{
+    return this.listaForo.asObservable();
   }
 
   dbState() {
@@ -120,6 +128,7 @@ export class ServiciobdService {
       await this.conexionBase.executeSql(this.tablaTema, []);
       await this.conexionBase.executeSql(this.tablaContenido, []);
       await this.conexionBase.executeSql(this.tablaUsuario, []);
+      await this.conexionBase.executeSql(this.tablaForo, []);
 
       //Ejecuto los insert por defecto en caso que existan
       await this.conexionBase.executeSql(this.registroRol, []);
@@ -129,13 +138,13 @@ export class ServiciobdService {
       await this.conexionBase.executeSql(this.registroContenido, []);
       await this.conexionBase.executeSql(this.registroUsuario, []);
       await this.conexionBase.executeSql(this.registroUsuario2, []);
-
       
 
       this.mostrarNoticia();
       this.mostrarResena();
       this.seleccionarUsuario();
       this.seleccionarUsuarioSuspendidos();
+      this.mostrarForo();
 
       //modifico el estado de la base de datos
       this.isBDReady.next(true);
@@ -298,7 +307,7 @@ export class ServiciobdService {
   }
 
   agregarUsuario(nickName: string, correo: string , clave: string) {
-    return this.conexionBase.executeSql('INSERT INTO usuario(nickName, correo, clave, id_rol) VALUES(?,?,?,2)', [nickName, correo, clave]).then(res => {
+    return this.conexionBase.executeSql('INSERT INTO usuario(nickName, correo, clave, id_rol) VALUES(?,?,?,2);', [nickName, correo, clave]).then(res => {
       this.presentAlert("Registro", "Se registro correctamente");
       this.seleccionarUsuario();
     }).catch(e => {
@@ -375,23 +384,88 @@ export class ServiciobdService {
 
   cerrarSesion() {
     this.alertaConfirmacion("¿Esta seguro que quiere cerrar sesion?", () => {
+      this.presentAlert('Cerrar sesión', 'Se cerro sesión exitosamente.');
       this.usuarioLogeado.next(false);
       this.rolUsuario.next(null);
-      this.presentAlert('Cerrar sesión', 'Se cerro sesión exitosamente.');
     }).catch(e => {
       this.presentAlert('Cerrar sesión', 'Error: ' + JSON.stringify(e));
     })
   }
 
+  obtenerIdUsuario(nickName: string) {
+    return this.conexionBase.executeSql('SELECT id_usuario FROM usuario WHERE nickname = ?', [nickName]).then(res => {
+      if (res.rows.length > 0) {
+        return res.rows.item(0).id_usuario;
+      } else {
+        return null;
+      }
+    }).catch(e => {
+      console.error('Error al obtener el id: ', e);
+      return null;
+    });
+  }
+
+  obtenerClave(nickName: string) {
+    return this.conexionBase.executeSql('SELECT clave FROM usuario WHERE nickname = ?', [nickName]).then(res => {
+      if (res.rows.length > 0) {
+        return res.rows.item(0).clave;
+      } else {
+        return null
+      }
+    }).catch(e => {
+      this.presentAlert('ClAVE USUARIO', 'ERROR: ' + JSON.stringify(e));
+      return null;
+    })
+  }
+
+  obtenerCorreo(nickName: string) {
+    return this.conexionBase.executeSql('SELECT correo FROM usuario WHERE nickname = ?', [nickName]).then(res => {
+      if (res.rows.length > 0) {
+        return res.rows.item(0).correo;
+      } else {
+        return null
+      }
+    }).catch(e => {
+      this.presentAlert('Correo USUARIO', 'ERROR: ' + JSON.stringify(e));
+      return null;
+    })
+  }
+
+  seleccionarPerfil(id: string) {
+    return this.conexionBase.executeSql('SELECT nickName, correo, foto FROM usuario WHERE id_usuario = ?', [id]).then(res => {
+      let items: Usuario[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_usuario: res.rows.item(i).id_usuario,
+            nickName: res.rows.item(i).nickName,
+            clave: res.rows.item(i).clave,
+            correo: res.rows.item(i).correo,
+            foto: res.rows.item(i).foto,
+            estado: res.rows.item(i).estado,
+            id_rol: res.rows.item(i).id_rol
+          })
+        }
+      }
+      this.listaPerfil.next(items as any);
+    })
+  }
+
+  guardarFotoPerfil(foto: string, id:string) {
+    return this.conexionBase.executeSql('UPDATE usuario SET foto = ? WHERE id_usuario = ?;', [foto, id]).then(res => {
+      this.presentAlert("Foto", "Se guardo la foto exitosamente");
+      this.seleccionarUsuario();
+    }).catch(e => {
+      this.presentAlert('Foto', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
 
   cambiarContrasena(id:string, clave:string) {
-    this.alertaConfirmacion("¿Esta seguro que desea cambiar su clave?", () => {
-      return this.conexionBase.executeSql('UPDATE usuario SET clave = ? WHERE id_usuario = ?', [clave, id]).then(res => {
-        this.presentAlert("Cambio de contraseña", "Contraseña cambiada exitosamente");
-        this.seleccionarUsuario();
-      }).catch(e => {
-        this.presentAlert('Cambio de contraseña', 'Error: ' + JSON.stringify(e));
-      })
+    return this.conexionBase.executeSql('UPDATE usuario SET clave = ? WHERE id_usuario = ?', [clave, id]).then(res => {
+      this.seleccionarUsuario();
+    }).catch(e => {
+      this.presentAlert('Cambio de contraseña', 'Error: ' + JSON.stringify(e));
     })
   }
 
@@ -406,6 +480,45 @@ export class ServiciobdService {
     })
   }
 
+  // ---------------Metodos para publicar en el foro-------------//
+
+  mostrarForo() {
+    return this.conexionBase.executeSql('SELECT f.titulo, u.nickName, f.texto, u.id_usuario, f.id_foro FROM foro f JOIN usuario u ON (f.id_usuario = u.id_usuario)', []).then(res => {
+      let items: Foro[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_foro: res.rows.item(i).id_foro,
+            titulo: res.rows.item(i).titulo,
+            autor: res.rows.item(i).nickName,
+            texto: res.rows.item(i).texto,
+            id_usuario: res.rows.item(i).id_usuario
+          })
+        }
+      }
+      this.listaForo.next(items as any);
+    })
+  }
+
+  agregarForo(titulo:string, texto:string, id:string) {
+    return this.conexionBase.executeSql('INSERT INTO foro(titulo, texto, id_usuario) VALUES(?,?,?)', [titulo, texto, id]).then(res => {
+      this.presentAlert("Foro", "Su foro se publico exitosamente")
+      this.mostrarForo();
+    }).catch(e => {
+      this.presentAlert('Agergar foro', 'ERROR: ' + JSON.stringify(e));
+    })
+  }
+
+  eliminarForo(id: string) {
+    this.alertaConfirmacion("Esta seguro que quiere eliminar este foro?", () => {
+      return this.conexionBase.executeSql('DELETE FROM foro WHERE id_foro = ?', [id]).then(res => {
+        this.presentAlert("Eliminar", "Foro eliminado exitosamente");
+        this.mostrarForo();
+      }).catch(e => {
+        this.presentAlert('Elimnar foro', 'ERROR: ' + JSON.stringify(e));
+      })
+    })
+  }
 
 
   async presentAlert(titulo: string, msj: string) {

@@ -9,18 +9,18 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="fondo">
+  <div class="fondo" *ngFor="let x of arregloPerfil">
     
     <div class="contenedor-perfil">
       <ion-button fill="clear" class="boton-icono" (click)="takePicture()">
         <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
       </ion-button>
-      <img [src]="foto" class="imagen-perfil">
+      <img [src]="x.foto" class="imagen-perfil">
     </div>
     
     <div class="datos">
-      <p>Usuario: {{usuario}}</p>
-      <p>Correo: {{correo}}</p>
+      <p>Usuario: {{x.nickName}} </p>
+      <p>Correo: {{x.correo}} </p>
     </div>
     
     <ion-item [routerLink]="['/cambio-p']">
