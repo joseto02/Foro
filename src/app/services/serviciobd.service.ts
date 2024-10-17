@@ -7,6 +7,7 @@ import { Tema } from '../model/tema';
 import { Contenido } from '../model/contenido';
 import { Usuario } from '../model/usuario';
 import { Foro } from '../model/foro';
+import { Comentario } from '../model/comentario';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,20 @@ export class ServiciobdService {
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nickName VARCHAR(35) NOT NULL, clave VARCHAR(50) NOT NULL, correo VARCHAR(100) NOT NULL, foto VARCHAR(100), estado INTEGER DEFAULT 1, id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol(id_rol));";
   tablaContenido: string = "CREATE TABLE IF NOT EXISTS contenido(id_contenido INTEGER PRIMARY KEY AUTOINCREMENT, titulo VARCHAR(40) NOT NULL, texto TEXT NOT NULL, foto VARCHAR(100), id_tema INTEGER, FOREIGN KEY(id_tema) REFERENCES tema(id_tema));";
   tablaForo: string = "CREATE TABLE IF NOT EXISTS foro(id_foro INTEGER PRIMARY KEY AUTOINCREMENT, titulo VARCHAR(100), autor VARCHAR(50), texto TEXT, id_usuario INTEGER, FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE)";
-  tablaComentario: string = "CREATE TABLE IF NOT EXISTS comentario(id_comentario INTEGER PRIMARY KEY AUTOINCREMENT, fecha_comentario VARCHAR(10), texto TEXT NOT NULL, id_usuario INTEGER, FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE, id_contenido INTEGER, FOREIGN KEY(id_contenido) REFERENCES contenido(id_contenido) ON DELETE CASCADE);";
+  tablaComentario: string = `
+  CREATE TABLE IF NOT EXISTS comentario (
+    id_comentario INTEGER PRIMARY KEY AUTOINCREMENT,
+    fecha_comentario DATE NOT NULL,
+    texto TEXT NOT NULL,
+    id_usuario INTEGER NOT NULL,
+    id_contenido INTEGER,
+    id_foro INTEGER,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+    FOREIGN KEY (id_contenido) REFERENCES contenido(id_contenido) ON DELETE CASCADE,
+    FOREIGN KEY (id_foro) REFERENCES foro(id_foro) ON DELETE CASCADE
+  );
+`;
+  
   tablaFavoritos: string = "CREATE TABLE IF NOT EXISTS favorito(id_favorito INTEGER PRIMARY KEY AUTOINCREMENT, fecha_agregado VARCHAR(10), id_usuario INTEGER, FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE, id_contenido INTEGER, FOREIGN KEY(id_contenido) REFERENCES contenido(id_contenido) ON DELETE CASCADE);";
 
   // -----Variables para los insert por defecto en nuestras tablas--------
@@ -44,12 +58,12 @@ export class ServiciobdService {
   
   //Tabla usuario
   registroUsuario: string = "INSERT OR IGNORE INTO usuario(id_usuario, nickName, clave, correo, id_rol) VALUES(1, 'admin', 'Duoc2024@', 'jom.gonzalez@duocuc.cl', 1);";
-  registroUsuario2: string = "INSERT OR IGNORE INTO usuario(id_usuario, nickName, clave, correo, id_rol) VALUES(2, 'usuario1', 'Duoc2020@', 'jom.gonzalez@duocuc.cl', 2);";
 
-  //tabla foto
-  // registroForo: string = "INSERT OR IGNORE INTO foro(id_foro, titulo, autor, texto, id_usuario) VALUES(1, 'FORO DE PRUEBA', 'Autor de Prueba', 'Aca va todo el texto del foro', 1);";
+  registroComentario: string = "INSERT OR IGNORE INTO comentario(id_comentario, fecha_comentario, texto, id_usuario, id_foro) VALUES(1, DATE('now'), 'Comentario de foro', 1, 1)";
 
-  borrarForo: string = "DROP TABLE foro;";
+  borrarTablaComentario: string = "DROP TABLE comentario";
+  
+
 
 
   //Variable para guardar los datos de las consultas en las tablas
@@ -62,6 +76,9 @@ export class ServiciobdService {
   listaPerfil = new BehaviorSubject([]);
 
   listaForo = new BehaviorSubject([]);
+
+  listaComentarioForo = new BehaviorSubject([]);
+  listaComentarioContenido = new BehaviorSubject([]);
 
   //Variable para el status de la base de datos
   private isBDReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -94,6 +111,14 @@ export class ServiciobdService {
 
   fetchForo(): Observable<Foro[]>{
     return this.listaForo.asObservable();
+  }
+
+  fetchComentarioForo(): Observable<Comentario[]>{
+    return this.listaComentarioForo.asObservable();
+  }
+
+  fetchComentarioContenido(): Observable<Comentario[]>{
+    return this.listaComentarioContenido.asObservable();
   }
 
   dbState() {
@@ -129,6 +154,7 @@ export class ServiciobdService {
       await this.conexionBase.executeSql(this.tablaContenido, []);
       await this.conexionBase.executeSql(this.tablaUsuario, []);
       await this.conexionBase.executeSql(this.tablaForo, []);
+      await this.conexionBase.executeSql(this.tablaComentario, []);
 
       //Ejecuto los insert por defecto en caso que existan
       await this.conexionBase.executeSql(this.registroRol, []);
@@ -137,7 +163,6 @@ export class ServiciobdService {
       await this.conexionBase.executeSql(this.registroTema2, []);
       await this.conexionBase.executeSql(this.registroContenido, []);
       await this.conexionBase.executeSql(this.registroUsuario, []);
-      await this.conexionBase.executeSql(this.registroUsuario2, []);
       
 
       this.mostrarNoticia();
@@ -519,6 +544,76 @@ export class ServiciobdService {
       })
     })
   }
+
+  //------------Agregar comentarios al foro----------------------//
+
+  mostrarComentarioForo(id_foro:number) {
+    return this.conexionBase.executeSql('SELECT c.fecha_comentario, c.texto, u.nickName, u.foto, c.id_usuario, c.id_contenido, c.id_foro, c.id_comentario FROM comentario c JOIN usuario u ON (c.id_usuario = u.id_usuario) WHERE c.id_foro = ? ORDER BY c.fecha_comentario DESC', [id_foro]).then(res => {
+      let items: Comentario[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_comentario: res.rows.item(i).id_comentario,
+            fecha_comentario: res.rows.item(i).fecha_comentario,
+            texto: res.rows.item(i).texto,
+            id_usuario: res.rows.item(i).id_usuario,
+            id_contenido: res.rows.item(i).id_contenido,
+            id_foro: res.rows.item(i).id_foro,
+            nickName: res.rows.item(i).nickName,
+            foto: res.rows.item(i).foto
+          })
+        }
+      }
+      this.listaComentarioForo.next(items as any);
+    })
+  }
+
+  mostrarComentarioContenido(id_contenido: number) {
+    return this.conexionBase.executeSql('SELECT c.fecha_comentario, c.texto, u.nickName, u.foto, c.id_usuario, c.id_contenido, c.id_comentario, c.id_foro FROM comentario c JOIN usuario u ON (c.id_usuario = u.id_usuario) WHERE c.id_contenido = ? ORDER BY c.fecha_comentario DESC', [id_contenido]).then(res => {
+      let items: Comentario[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_comentario: res.rows.item(i).id_comentario,
+            fecha_comentario: res.rows.item(i).fecha_comentario,
+            texto: res.rows.item(i).texto,
+            id_usuario: res.rows.item(i).id_usuario,
+            id_contenido: res.rows.item(i).id_contenido,
+            id_foro: res.rows.item(i).id_foro,
+            nickName: res.rows.item(i).nickName,
+            foto: res.rows.item(i).foto
+          })
+        }
+      }
+      this.listaComentarioContenido.next(items as any);
+    })
+  }
+
+  agregarComentario(texto: string, id_usuario: number, id_foro: number | null, id_contenido: number | null, ) {
+    return this.conexionBase.executeSql('INSERT INTO comentario (fecha_comentario, texto, id_usuario, id_foro, id_contenido) VALUES(DATE("now"), ?, ?, ?, ?)', [texto, id_usuario, id_foro, id_contenido]).then(res => {
+      this.presentAlert("Comentario", "Su comentario se agrego correctamente");
+      if (id_foro !== null) {
+        this.mostrarComentarioForo(id_foro);
+      } else if (id_contenido !== null) {
+        this.mostrarComentarioContenido(id_contenido);
+      }
+    }).catch(e => {
+      this.presentAlert("Agregar comentario", "ERROR " + JSON.stringify(e));
+    })
+  }
+
+  eliminarComentario(id: number) {
+    this.alertaConfirmacion("Esta seguro que quiere eliminar el comentario?", () => {
+      return this.conexionBase.executeSql('DELETE FROM comentario WHERE id_comentario = ?', [id]).then(res => {
+        this.presentAlert("Eliminar", "Comentario eliminado correctamente");
+        this.mostrarComentarioContenido(id);
+        this.mostrarComentarioForo(id);
+      }).catch(e => {
+        this.presentAlert('Eliminar comentario', 'ERROR: ' + JSON.stringify(e));
+      })
+    })
+  }
+
 
 
   async presentAlert(titulo: string, msj: string) {

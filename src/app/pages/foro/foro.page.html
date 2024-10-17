@@ -1,0 +1,37 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Foro</ion-title>
+    <ion-buttons [collapse]="true" slot="end">
+      <ion-button shape="round" color="primary" (click)="agregarTema()">Agregar tema</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true">
+
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Title</ion-title>
+      <ion-buttons [collapse]="true" slot="end">
+        <ion-button>Button</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+  <p *ngIf="msjError" class="error"> {{msjError}} </p>
+
+  <div class="ion-padding">Bienvenido al foro de GamerNest</div>
+  
+  <ion-list *ngFor="let x of arregloForo">
+    <ion-item (click)="irForo(x)">
+      <ion-label> {{x.titulo}} <br>
+        <p>Autor: {{x.autor}} </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>

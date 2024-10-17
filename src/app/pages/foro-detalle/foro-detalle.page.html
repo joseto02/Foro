@@ -1,0 +1,52 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Foro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card *ngIf="foro">
+    <ion-card-header>
+      <ion-card-title> {{foro.titulo}} </ion-card-title>
+      <p>Autor: {{foro.autor}}</p>
+    </ion-card-header>
+    <ion-card-content>{{foro.texto}}</ion-card-content>
+  </ion-card>
+
+  <ion-title>Comentarios</ion-title>
+
+  <ion-list [inset]="true" *ngFor="let x of arregloComentario">
+    <ion-item-sliding>
+      <ion-item class="comentario-item">
+        <ion-avatar slot="start">
+          <img *ngIf="x.foto" alt="foto de usuario" [src]="x.foto" />
+        </ion-avatar>
+        <ion-label>
+          <div class="usuario-info">
+            <span class="nombre-usuario">{{x.nickName}}</span>
+            <p class="texto-comentario">{{x.texto}}</p>
+            <p> {{x.fecha_comentario}} </p>
+          </div>
+        </ion-label>
+      </ion-item>
+      <ion-item-options *ngIf="admin">
+        <ion-item-option color="danger" (click)="eliminarComentario(x)">Borrar</ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-list [inset]="true">
+    <ion-item lines="none">
+      <ion-textarea class="custom-textarea" placeholder="Agrega tu comentario aquí:"
+        [(ngModel)]="comentario"></ion-textarea>
+    </ion-item>
+    <p *ngIf="msjValidacion" class="error"> {{msjValidacion}} </p>
+    <ion-item lines="none">
+      <ion-button slot="end" (click)="comentarForo()">Enviar comentario</ion-button>
+    </ion-item> 
+  </ion-list>
+  
+</ion-content>

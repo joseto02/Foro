@@ -16,10 +16,6 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
   {
-    path: 'foros',
-    loadChildren: () => import('./pages/foros/foros.module').then( m => m.ForosPageModule)
-  },
-  {
     path: 'noticias',
     loadChildren: () => import('./pages/noticias/noticias.module').then( m => m.NoticiasPageModule)
   },
@@ -120,9 +116,18 @@ const routes: Routes = [
     loadChildren: () => import('./pages/admin-foro/admin-foro.module').then(m => m.AdminForoPageModule)
   },
   {
+    path: 'foro',
+    loadChildren: () => import('./pages/foro/foro.module').then(m => m.ForoPageModule)
+  },
+  {
+    path: 'foro-detalle',
+    loadChildren: () => import('./pages/foro-detalle/foro-detalle.module').then(m => m.ForoDetallePageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
   },
+
 
 ];
 
