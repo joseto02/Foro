@@ -23,21 +23,21 @@
 
   <div *ngIf="tipoContenido == 'noticias'">
     <ion-card *ngFor="let x of arregloContenido">
-      <div style="position: relative;">
-        <ion-icon name="star-outline" style="position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer;"
-          color="warning"></ion-icon>
-        <img alt="Sin imagen" [src]="x.foto"/>
-      </div>
+
+      <img alt="Sin imagen" [src]="x.foto" />
+
       <ion-card-header>
         <ion-card-title> {{x.titulo}} </ion-card-title>
+        <ion-label> {{x.titular}} </ion-label>
       </ion-card-header>
     
       <ion-card-content>
         {{x.texto}}
       </ion-card-content>
-    
+
       <ion-button (click)="modificar(x)" color="warning">Editar</ion-button>
       <ion-button (click)="eliminar(x)" color="danger">Borrar</ion-button>
+
     </ion-card>
     
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -49,13 +49,12 @@
 
   <div *ngIf="tipoContenido == 'reseñas'">
     <ion-card *ngFor="let x of arregloResenas">
-      <div style="position: relative;">
-        <ion-icon name="star-outline" style="position: absolute; top: 10px; right: 10px; font-size: 24px; cursor: pointer;"
-          color="warning"></ion-icon>
-        <img alt="Sin imagen" [src]="x.foto" />
-      </div>
+      
+      <img alt="Sin imagen" [src]="x.foto" />
+
       <ion-card-header>
         <ion-card-title> {{x.titulo}} </ion-card-title>
+        <ion-label> {{x.titular}} </ion-label>
       </ion-card-header>
     
       <ion-card-content>

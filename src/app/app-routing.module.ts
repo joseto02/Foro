@@ -124,11 +124,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/foro-detalle/foro-detalle.module').then(m => m.ForoDetallePageModule)
   },
   {
+    path: 'noticia-detalle',
+    loadChildren: () => import('./pages/noticia-detalle/noticia-detalle.module').then(m => m.NoticiaDetallePageModule)
+  },
+  {
+    path: 'resena',
+    loadChildren: () => import('./pages/resena/resena.module').then(m => m.ResenaPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
-  },
-
-
+  }
 ];
 
 @NgModule({

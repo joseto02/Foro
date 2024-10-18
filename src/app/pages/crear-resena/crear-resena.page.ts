@@ -11,6 +11,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 export class CrearResenaPage implements OnInit {
 
   titulo: string = "";
+  titular: string = "";
   texto: string = "";
   foto: any;
 
@@ -21,7 +22,7 @@ export class CrearResenaPage implements OnInit {
   }
 
   insertar() {
-    this.bd.agregarResena(this.titulo, this.texto, this.foto);
+    this.bd.agregarResena(this.titulo, this.titular, this.texto, this.foto);
   }
 
   takePicture = async () => {

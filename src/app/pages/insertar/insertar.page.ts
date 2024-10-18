@@ -10,6 +10,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 export class InsertarPage implements OnInit {
 
   titulo: string = "";
+  titular: string = "";
   texto: string = "";
   foto: any;
   
@@ -20,7 +21,7 @@ export class InsertarPage implements OnInit {
   }
 
   insertar() {
-      this.bd.agregarNoticia(this.titulo, this.texto, this.foto);
+      this.bd.agregarNoticia(this.titulo, this.titular, this.texto, this.foto);
   }
 
   takePicture = async () => {

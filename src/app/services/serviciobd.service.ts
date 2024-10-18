@@ -25,7 +25,7 @@ export class ServiciobdService {
 
   //tablas con claves foraneas
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY AUTOINCREMENT, nickName VARCHAR(35) NOT NULL, clave VARCHAR(50) NOT NULL, correo VARCHAR(100) NOT NULL, foto VARCHAR(100), estado INTEGER DEFAULT 1, id_rol INTEGER, FOREIGN KEY (id_rol) REFERENCES rol(id_rol));";
-  tablaContenido: string = "CREATE TABLE IF NOT EXISTS contenido(id_contenido INTEGER PRIMARY KEY AUTOINCREMENT, titulo VARCHAR(40) NOT NULL, texto TEXT NOT NULL, foto VARCHAR(100), id_tema INTEGER, FOREIGN KEY(id_tema) REFERENCES tema(id_tema));";
+  tablaContenido: string = "CREATE TABLE IF NOT EXISTS contenido(id_contenido INTEGER PRIMARY KEY AUTOINCREMENT, titulo VARCHAR(40) NOT NULL, titular VARCHAR(100), texto TEXT NOT NULL, foto VARCHAR(100), id_tema INTEGER, FOREIGN KEY(id_tema) REFERENCES tema(id_tema));";
   tablaForo: string = "CREATE TABLE IF NOT EXISTS foro(id_foro INTEGER PRIMARY KEY AUTOINCREMENT, titulo VARCHAR(100), autor VARCHAR(50), texto TEXT, id_usuario INTEGER, FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE)";
   tablaComentario: string = `
   CREATE TABLE IF NOT EXISTS comentario (
@@ -54,14 +54,14 @@ export class ServiciobdService {
   registroTema2: string = "INSERT OR IGNORE INTO tema(id_tema, nombreTema) VALUES(2, 'reseña');";
 
   //tabla contenido
-  registroContenido: string = "INSERT OR IGNORE INTO contenido(id_contenido, titulo, texto, foto, id_tema) VALUES (1, 'Contenido agregado desde la BBDD', 'Imagen agregada desde la BBDD', '/assets/portadas/space marine.jpg', 1);";
+  registroContenido: string = "INSERT OR IGNORE INTO contenido(id_contenido, titulo, titular, texto, foto, id_tema) VALUES (1, 'Contenido agregado desde la BBDD', 'TITULAR', 'Imagen agregada desde la BBDD', '/assets/portadas/space marine.jpg', 1);";
   
   //Tabla usuario
   registroUsuario: string = "INSERT OR IGNORE INTO usuario(id_usuario, nickName, clave, correo, id_rol) VALUES(1, 'admin', 'Duoc2024@', 'jom.gonzalez@duocuc.cl', 1);";
 
   registroComentario: string = "INSERT OR IGNORE INTO comentario(id_comentario, fecha_comentario, texto, id_usuario, id_foro) VALUES(1, DATE('now'), 'Comentario de foro', 1, 1)";
 
-  borrarTablaComentario: string = "DROP TABLE comentario";
+  borrarTablaContenido: string = "DROP TABLE contenido";
   
 
 
@@ -195,6 +195,7 @@ export class ServiciobdService {
           items.push({
             id_contenido: res.rows.item(i).id_contenido,
             titulo: res.rows.item(i).titulo,
+            titular: res.rows.item(i).titular,
             texto: res.rows.item(i).texto,
             foto: res.rows.item(i).foto,
             id_tema: res.rows.item(i).id_tema
@@ -220,6 +221,7 @@ export class ServiciobdService {
           items.push({
             id_contenido: res.rows.item(i).id_contenido,
             titulo: res.rows.item(i).titulo,
+            titular: res.rows.item(i).titular,
             texto: res.rows.item(i).texto,
             foto: res.rows.item(i).foto,
             id_tema: res.rows.item(i).id_tema
@@ -246,8 +248,8 @@ export class ServiciobdService {
     })
   }
 
-  modificarContenido(id:string, titulo:string, texto:string, foto: string) {
-    return this.conexionBase.executeSql('UPDATE contenido SET titulo = ?, texto = ?, foto = ? WHERE id_contenido = ?', [titulo, texto, foto, id]).then(res => {
+  modificarContenido(id:string, titulo:string, titular:string, texto:string, foto: string) {
+    return this.conexionBase.executeSql('UPDATE contenido SET titulo = ?, titular = ?, texto = ?, foto = ? WHERE id_contenido = ?', [titulo, titular, texto, foto, id]).then(res => {
       this.presentAlert("Modificar", "Contenido Modificado");
       this.mostrarNoticia();
       this.mostrarResena();
@@ -256,8 +258,8 @@ export class ServiciobdService {
     })
   }
 
-  agregarNoticia(titulo:string, texto: string, foto:any) {
-    return this.conexionBase.executeSql('INSERT INTO contenido(titulo, texto, foto, id_tema) VALUES (?,?,?,1)', [titulo, texto, foto]).then(res => {
+  agregarNoticia(titulo:string, titular:string, texto: string, foto:any) {
+    return this.conexionBase.executeSql('INSERT INTO contenido(titulo, titular, texto, foto, id_tema) VALUES (?,?,?,?,1)', [titulo, titular, texto, foto]).then(res => {
       this.presentAlert("Noticia", "Noticia agregada exitosamente");
       this.mostrarNoticia();
       this.mostrarResena();
@@ -266,8 +268,8 @@ export class ServiciobdService {
     })
   }
 
-  agregarResena(titulo: string, texto: string, foto: any) {
-    return this.conexionBase.executeSql('INSERT INTO contenido(titulo, texto, foto, id_tema) VALUES (?,?,?,2)', [titulo, texto, foto]).then(res => {
+  agregarResena(titulo: string, titular:string, texto: string, foto: any) {
+    return this.conexionBase.executeSql('INSERT INTO contenido(titulo, titular, texto, foto, id_tema) VALUES (?,?,?,?,2)', [titulo, titular, texto, foto]).then(res => {
       this.presentAlert("Reseña", "Reseña agregada exitosamente");
       this.mostrarNoticia();
       this.mostrarResena();
@@ -408,13 +410,10 @@ export class ServiciobdService {
   }
 
   cerrarSesion() {
-    this.alertaConfirmacion("¿Esta seguro que quiere cerrar sesion?", () => {
       this.presentAlert('Cerrar sesión', 'Se cerro sesión exitosamente.');
       this.usuarioLogeado.next(false);
       this.rolUsuario.next(null);
-    }).catch(e => {
-      this.presentAlert('Cerrar sesión', 'Error: ' + JSON.stringify(e));
-    })
+    
   }
 
   obtenerIdUsuario(nickName: string) {
@@ -602,12 +601,22 @@ export class ServiciobdService {
     })
   }
 
-  eliminarComentario(id: number) {
+  eliminarComentarioForo(id: number, id_foro:number) {
     this.alertaConfirmacion("Esta seguro que quiere eliminar el comentario?", () => {
       return this.conexionBase.executeSql('DELETE FROM comentario WHERE id_comentario = ?', [id]).then(res => {
         this.presentAlert("Eliminar", "Comentario eliminado correctamente");
-        this.mostrarComentarioContenido(id);
-        this.mostrarComentarioForo(id);
+        this.mostrarComentarioForo(id_foro);
+      }).catch(e => {
+        this.presentAlert('Eliminar comentario', 'ERROR: ' + JSON.stringify(e));
+      })
+    })
+  }
+
+  eliminarComentarioContenido(id: number, id_contenido:number) {
+    this.alertaConfirmacion("Esta seguro que quiere eliminar el comentario?", () => {
+      return this.conexionBase.executeSql('DELETE FROM comentario WHERE id_comentario = ?', [id]).then(res => {
+        this.presentAlert("Eliminar", "Comentario eliminado correctamente");
+        this.mostrarComentarioContenido(id_contenido);
       }).catch(e => {
         this.presentAlert('Eliminar comentario', 'ERROR: ' + JSON.stringify(e));
       })

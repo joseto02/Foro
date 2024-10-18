@@ -14,12 +14,16 @@
             <ion-label [routerLink]="['/home']">Página principal</ion-label>
           </ion-item>
           <ion-item routerLink="/foro">
-            <ion-icon slot="start" name="game-controller-outline"></ion-icon>
+            <ion-icon slot="start" name="chatbubbles-outline"></ion-icon>
             <ion-label>Foros</ion-label>
           </ion-item>
           <ion-item>
             <ion-icon slot="start" name="newspaper-sharp"></ion-icon>
             <ion-label [routerLink]="['/noticias']">Noticias</ion-label>
+          </ion-item>
+          <ion-item>
+            <ion-icon slot="start" name="game-controller-outline"></ion-icon>
+            <ion-label [routerLink]="['/resena']">Reseñas</ion-label>
           </ion-item>
           <ion-item *ngIf="usuarioLogeado">
             <ion-icon slot="start" name="star-outline"></ion-icon>

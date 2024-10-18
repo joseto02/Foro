@@ -24,7 +24,7 @@ export class EditarContenidoPage implements OnInit {
   }
 
   modificar() {
-    this.bd.modificarContenido(this.contenido.id_contenido, this.contenido.titulo, this.contenido.texto, this.contenido.foto);
+    this.bd.modificarContenido(this.contenido.id_contenido, this.contenido.titulo, this.contenido.titular, this.contenido.texto, this.contenido.foto);
   }
 
   takePicture = async () => {

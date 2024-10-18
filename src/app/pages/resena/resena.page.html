@@ -1,32 +1,27 @@
 <ion-header [translucent]="true">
-  <div>
-    <ion-toolbar >
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-      <ion-title>Noticias</ion-title>
-    </ion-toolbar>
-  </div>
-  
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reseñas</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
-  <div *ngFor="let x of noticias">
+  <div *ngFor="let x of resenas">
     <ion-card>
-      <img (click)="irNoticia(x)" alt="1" [src]="x.foto"/>
+      <img (click)="irResena(x)" alt="1" [src]="x.foto" />
       <ion-card-header>
         <ion-card-title> {{x.titulo}} </ion-card-title>
       </ion-card-header>
-    
+  
       <ion-card-content>
-          {{x.titular}}
+        {{x.titular}}
         <ion-button class="btn-custom" (click)="opciones(x)" fill="clear">
           <ion-icon slot="icon-only" md="ellipsis-vertical"></ion-icon>
         </ion-button>
       </ion-card-content>
     </ion-card>
   </div>
-  
 </ion-content>
