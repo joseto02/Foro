@@ -132,9 +132,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/resena/resena.module').then(m => m.ResenaPageModule)
   },
   {
+    path: 'resena-detalle',
+    loadChildren: () => import('./pages/resena-detalle/resena-detalle.module').then(m => m.ResenaDetallePageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
-  }
+  },
+
 ];
 
 @NgModule({

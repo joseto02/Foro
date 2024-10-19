@@ -17,15 +17,15 @@
     <ion-card>
       <img (click)="irNoticia(x)" alt="1" [src]="x.foto"/>
       <ion-card-header>
-        <ion-card-title> {{x.titulo}} </ion-card-title>
+        <ion-card-title (click)="irNoticia(x)"> {{x.titulo}} </ion-card-title>
       </ion-card-header>
-    
-      <ion-card-content>
-          {{x.titular}}
+      
+      <div class="alinear">
+        <ion-card-content>{{x.titular}}</ion-card-content>
         <ion-button class="btn-custom" (click)="opciones(x)" fill="clear">
           <ion-icon slot="icon-only" md="ellipsis-vertical"></ion-icon>
         </ion-button>
-      </ion-card-content>
+      </div>
     </ion-card>
   </div>
   

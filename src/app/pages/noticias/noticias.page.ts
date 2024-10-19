@@ -3,6 +3,7 @@ import { ActionSheetController } from '@ionic/angular';
 import { ServiciobdService } from 'src/app/services/serviciobd.service';
 import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 import { NavigationExtras, Router } from '@angular/router';
+import { StorageService } from 'src/app/services/storage.service';
 
 
 @Component({
@@ -13,14 +14,29 @@ import { NavigationExtras, Router } from '@angular/router';
 export class NoticiasPage implements OnInit {
 
   noticias: any = [];
-  
-  constructor(private db: ServiciobdService, private actionSheetCtrl: ActionSheetController, private socialSharing: SocialSharing, private router: Router) { }
+  user: string = "";
+  id_user!: number;
 
-  ngOnInit() {
+  userLogged: boolean = false;
+  
+  constructor(private db: ServiciobdService, private actionSheetCtrl: ActionSheetController, private socialSharing: SocialSharing, private router: Router, private storage: StorageService) { }
+
+  async ngOnInit() {
+
+    this.storage.getNickName().subscribe(res => {
+      this.user = res || '';
+    })
+
+    this.id_user = await this.db.obtenerIdUsuario(this.user);
+
     this.db.dbState().subscribe(data => {
       if (data) {
         this.db.fetchNoticia().subscribe(res => {
           this.noticias = res;
+        })
+
+        this.db.estadoUsuario().subscribe(res => {
+          this.userLogged = res;
         })
       }
     })
@@ -47,7 +63,7 @@ export class NoticiasPage implements OnInit {
         {
           text: 'Favorito',
           icon: 'heart-outline',
-          handler: () => this.onShareNoticias()
+          handler: () => this.favoritos(x)
         }
       ]
     });
@@ -70,9 +86,12 @@ export class NoticiasPage implements OnInit {
       });
   }
 
-  onShareNoticias() {
-    
+  favoritos(x: any) {
+    if (!this.userLogged) {
+      this.db.presentAlert("Accion denegada", "Debe iniciar sesión para agregar a favoritos")
+    } else {
+      this.db.agregarFavorito(this.id_user, x.id_contenido);
+    }
   }
-
 
 }

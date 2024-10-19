@@ -15,7 +15,7 @@
       <ion-button fill="clear" class="boton-icono" (click)="takePicture()">
         <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
       </ion-button>
-      <img [src]="x.foto" class="imagen-perfil">
+      <img [src]="x.foto" class="imagen-perfil" (click)="takePicture()">
     </div>
     
     <div class="datos">

@@ -14,6 +14,8 @@ export class HomePage implements OnInit {
   nombre: string = '';
   estadoUsuario: boolean = false;
 
+  noticiasRecenly: any = [];
+
   constructor(private storage: StorageService, private db: ServiciobdService) {}
 
 
@@ -27,6 +29,10 @@ export class HomePage implements OnInit {
       if (data) {
         this.db.estadoUsuario().subscribe(res => {
           this.estadoUsuario = res;
+        })
+
+        this.db.fetchHomeNoticia().subscribe(res => {
+          this.noticiasRecenly = res
         })
 
       }

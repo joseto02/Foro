@@ -3,6 +3,7 @@ import { NavigationExtras, Router } from '@angular/router';
 import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 import { ActionSheetController } from '@ionic/angular';
 import { ServiciobdService } from 'src/app/services/serviciobd.service';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-resena',
@@ -13,14 +14,31 @@ export class ResenaPage implements OnInit {
 
   resenas: any = "";
 
-  constructor(private db: ServiciobdService, private router: Router, private actionSheetCtrl: ActionSheetController, private socialSharing: SocialSharing) { }
+  usuario: string = "";
+  id_user!: number;
 
-  ngOnInit() {
+  usuLogeado: boolean = false;
+
+  constructor(private db: ServiciobdService, private router: Router, private actionSheetCtrl: ActionSheetController, private socialSharing: SocialSharing, private storage: StorageService) { }
+
+  async ngOnInit() {
+
+    this.storage.getNickName().subscribe(res => {
+      this.usuario = res || '';
+    })
+
+    this.id_user = await this.db.obtenerIdUsuario(this.usuario);
+
     this.db.dbState().subscribe(data => {
       if (data) {
         this.db.fetchResena().subscribe(res => {
           this.resenas = res;
         })
+
+        this.db.estadoUsuario().subscribe(res => {
+          this.usuLogeado = res;
+        })
+
       }
     })
   }
@@ -46,7 +64,7 @@ export class ResenaPage implements OnInit {
         {
           text: 'Favorito',
           icon: 'heart-outline',
-          handler: () => this.onShareNoticias()
+          handler: () => this.favorito(x)
         }
       ]
     });
@@ -69,8 +87,12 @@ export class ResenaPage implements OnInit {
       });
   }
 
-  onShareNoticias() {
-
+  favorito(x:any) {
+    if (!this.usuLogeado) {
+      this.db.presentAlert("Accion denegada", "Debe iniciar sesión para agregar a favoritos");
+    } else {
+      this.db.agregarFavorito(this.id_user, x.id_contenido);
+    }
   }
 
 }

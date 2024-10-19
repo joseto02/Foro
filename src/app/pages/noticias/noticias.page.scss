@@ -5,5 +5,12 @@ img {
 }
 
 .btn-custom {
-    margin-left: 300px;
+    margin: 0;
+    padding: 0;
+}
+
+.alinear {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }

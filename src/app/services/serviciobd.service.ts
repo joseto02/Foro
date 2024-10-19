@@ -8,6 +8,7 @@ import { Contenido } from '../model/contenido';
 import { Usuario } from '../model/usuario';
 import { Foro } from '../model/foro';
 import { Comentario } from '../model/comentario';
+import { Favorito } from '../model/favorito';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,16 @@ export class ServiciobdService {
   );
 `;
   
-  tablaFavoritos: string = "CREATE TABLE IF NOT EXISTS favorito(id_favorito INTEGER PRIMARY KEY AUTOINCREMENT, fecha_agregado VARCHAR(10), id_usuario INTEGER, FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE, id_contenido INTEGER, FOREIGN KEY(id_contenido) REFERENCES contenido(id_contenido) ON DELETE CASCADE);";
+  tablaFavoritos: string = `
+  CREATE TABLE IF NOT EXISTS favorito(
+    id_favorito INTEGER PRIMARY KEY AUTOINCREMENT,
+    fecha_agregado DATE,
+    id_usuario INTEGER,
+    id_contenido INTEGER,
+    FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+    FOREIGN KEY(id_contenido) REFERENCES contenido(id_contenido) ON DELETE CASCADE
+  );
+`;
 
   // -----Variables para los insert por defecto en nuestras tablas--------
 
@@ -61,9 +71,6 @@ export class ServiciobdService {
 
   registroComentario: string = "INSERT OR IGNORE INTO comentario(id_comentario, fecha_comentario, texto, id_usuario, id_foro) VALUES(1, DATE('now'), 'Comentario de foro', 1, 1)";
 
-  borrarTablaContenido: string = "DROP TABLE contenido";
-  
-
 
 
   //Variable para guardar los datos de las consultas en las tablas
@@ -79,6 +86,8 @@ export class ServiciobdService {
 
   listaComentarioForo = new BehaviorSubject([]);
   listaComentarioContenido = new BehaviorSubject([]);
+
+  listaFavorito = new BehaviorSubject([]);
 
   //Variable para el status de la base de datos
   private isBDReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -121,6 +130,10 @@ export class ServiciobdService {
     return this.listaComentarioContenido.asObservable();
   }
 
+  fetchFavorito(): Observable<Favorito[]>{
+    return this.listaFavorito.asObservable();
+  }
+
   dbState() {
     return this.isBDReady.asObservable();
   }
@@ -155,6 +168,7 @@ export class ServiciobdService {
       await this.conexionBase.executeSql(this.tablaUsuario, []);
       await this.conexionBase.executeSql(this.tablaForo, []);
       await this.conexionBase.executeSql(this.tablaComentario, []);
+      await this.conexionBase.executeSql(this.tablaFavoritos, []);
 
       //Ejecuto los insert por defecto en caso que existan
       await this.conexionBase.executeSql(this.registroRol, []);
@@ -170,6 +184,7 @@ export class ServiciobdService {
       this.seleccionarUsuario();
       this.seleccionarUsuarioSuspendidos();
       this.mostrarForo();
+      this.homeNoticias();
 
       //modifico el estado de la base de datos
       this.isBDReady.next(true);
@@ -597,7 +612,7 @@ export class ServiciobdService {
         this.mostrarComentarioContenido(id_contenido);
       }
     }).catch(e => {
-      this.presentAlert("Agregar comentario", "ERROR " + JSON.stringify(e));
+      this.presentAlert("Agregar comentario", "ERROR: " + JSON.stringify(e));
     })
   }
 
@@ -622,6 +637,86 @@ export class ServiciobdService {
       })
     })
   }
+
+  //-------------Favoritos---------------------------//
+
+  mostrarFavoritos(id_usuario:number) {
+    return this.conexionBase.executeSql('SELECT fav.id_favorito, fav.fecha_agregado, fav.id_usuario, fav.id_contenido, con.titulo, con.titular, con.foto, con.id_tema FROM favorito fav JOIN contenido con ON (fav.id_contenido = con.id_contenido) WHERE fav.id_usuario = ? ORDER BY fav.fecha_agregado DESC', [id_usuario]).then(res => {
+      let items: Favorito[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_favorito: res.rows.item(i).id_favorito,
+            fecha_agregado: res.rows.item(i).fecha_agregado,
+            id_usuario: res.rows.item(i).id_usuario,
+            id_contenido: res.rows.item(i).id_contenido,
+            titulo: res.rows.item(i).titulo,
+            titular: res.rows.item(i).titular,
+            foto: res.rows.item(i).foto,
+            id_tema: res.rows.item(i).id_tema
+          })
+        }
+      }
+      this.listaFavorito.next(items as any);
+    })
+  }
+
+  agregarFavorito(id_usuario:number, id_contenido:number) {
+    return this.conexionBase.executeSql('INSERT INTO favorito (fecha_agregado, id_usuario, id_contenido) VALUES (DATE("now"), ?, ?)', [id_usuario, id_contenido]).then(res => {
+      this.presentAlert("Favorito", "Se agrego correctamente a favoritos");
+      this.mostrarFavoritos(id_usuario);
+    }).catch(e => {
+      this.presentAlert("Agregar favorito", "ERROR: " + JSON.stringify(e));
+    })
+  }
+
+  borrarFavorito(id_favorito: number, id_usuario: number) {
+    this.alertaConfirmacion("¿Esta seguro que quiere quitar de favoritos?", () => {
+      return this.conexionBase.executeSql('DELETE FROM favorito WHERE id_favorito = ?', [id_favorito]).then(res => {
+        this.presentAlert("Eliminar", "Favorito eliminado correctamente");
+        this.mostrarFavoritos(id_usuario);
+      })
+    }).catch(e => {
+      this.presentAlert('Eliminar favorito', 'ERROR: ' + JSON.stringify(e));
+    })
+  }
+
+  //-----------------mostrar contenido para el home---------//
+  listaHomeNotcias = new BehaviorSubject([]);
+  listaHomeForos = new BehaviorSubject([]);
+  listaHomeResenas = new BehaviorSubject([]);
+
+  fetchHomeNoticia(): Observable<Contenido[]>{
+    return this.listaHomeNotcias.asObservable();
+  }
+
+  fetchHomeForos(): Observable<Contenido[]>{
+    return this.listaHomeForos.asObservable();
+  }
+
+  fetchHomeResenas(): Observable<Contenido[]>{
+    return this.listaHomeResenas.asObservable();
+  }
+
+  homeNoticias() {
+    return this.conexionBase.executeSql('SELECT * FROM contenido WHERE id_tema = 1 ORDER BY id_contenido DESC LIMIT 3', []).then(res => {
+      let items: Contenido[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_contenido: res.rows.item(i).id_contenido,
+            titulo: res.rows.item(i).titulo,
+            titular: res.rows.item(i).titular,
+            texto: res.rows.item(i).texto,
+            foto: res.rows.item(i).foto,
+            id_tema: res.rows.item(i).id_tema
+          })
+        }
+      }
+      this.listaHomeNotcias.next(items as any);
+    })
+  }
+
 
 
 
@@ -657,7 +752,5 @@ export class ServiciobdService {
 
     await alert.present();
   }
-
-
 
 }
