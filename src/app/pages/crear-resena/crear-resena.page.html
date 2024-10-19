@@ -1,28 +1,41 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
     <ion-title>Agregar reseña</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="form-container">
+    <ion-item>
+      <ion-input label="Titulo de la noticia" labelPlacement="floating" placeholder="Ingrese titulo"
+        [(ngModel)]="titulo" (ngModelChange)="validarTitulo()"></ion-input>
+    </ion-item>
+    <p *ngIf="msjTitulo" class="error"> {{msjTitulo}} </p>
 
-  <ion-item>
-    <ion-input label="Titulo de la reseña" labelPlacement="floating" placeholder="Ingrese titulo"
-      [(ngModel)]="titulo"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-input label="Titular de la reseña" labelPlacement="floating" placeholder="Ingrese titular"
-      [(ngModel)]="titular"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-input label="Texto de la reseña" labelPlacement="floating" placeholder="Ingrese texto"
-      [(ngModel)]="texto"></ion-input>
-  </ion-item>
-  <ion-item>
-    <ion-button color="warning" (click)="takePicture()">Agregar foto</ion-button>
-    <img *ngIf="foto" [src]="foto" alt="sin foto">
-  </ion-item>
-  <ion-button color="success" [routerLink]="['/crear-contenido']" (click)="insertar()">Agregar reseña</ion-button>
-  <ion-button color="danger" [routerLink]="['/crear-contenido']">Cancelar</ion-button>
+    <ion-item>
+      <ion-input label="Titular de la noticia" labelPlacement="floating" placeholder="Ingrese titular"
+        [(ngModel)]="titular" (ngModelChange)="validarTitular()"></ion-input>
+    </ion-item>
+    <p *ngIf="msjTitular" class="error"> {{msjTitular}} </p>
 
+    <ion-item>
+      <ion-input label="Contenido de la noticia" labelPlacement="floating" placeholder="Escriba su reseña"
+        [(ngModel)]="texto" (ngModelChange)="validarTexto()"></ion-input>
+    </ion-item>
+    <p *ngIf="msjTexto" class="error"> {{msjTexto}} </p>
+
+    <ion-item class="foto-container">
+      <ion-button color="warning" (click)="takePicture()" class="btn-agregar-foto">Agregar foto</ion-button>
+      <img *ngIf="foto" [src]="foto" alt="sin foto" class="preview-foto">
+    </ion-item>
+    <p *ngIf="msjFoto" class="error"> {{msjFoto}} </p>
+
+    <div class="btn-container">
+      <ion-button color="success" (click)="insertar()" class="btn-agregar">Agregar noticia</ion-button>
+      <ion-button color="danger" [routerLink]="['/crear-contenido']" class="btn-cancelar">Cancelar</ion-button>
+    </div>
+  </div>
 </ion-content>

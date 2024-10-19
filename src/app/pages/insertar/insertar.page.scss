@@ -1,5 +1,59 @@
-img {
-    width: 100%;
-    height: 200px;
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: rgb(23, 82, 207);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-item {
+    margin-bottom: 15px;
+}
+
+.error {
+    color: #ff4d4d;
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+
+.foto-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-agregar-foto {
+    margin-right: 10px;
+}
+
+.preview-foto {
+    width: 100px;
+    height: 100px;
     object-fit: cover;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.btn-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.btn-agregar,
+.btn-cancelar {
+    flex: 1;
+    margin: 0 5px;
+}
+
+.btn-agregar {
+    --background: #28a745;
+}
+
+.btn-cancelar {
+    --background: #dc3545;
 }

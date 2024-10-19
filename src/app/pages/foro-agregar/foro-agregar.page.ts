@@ -15,6 +15,10 @@ export class ForoAgregarPage implements OnInit {
   titulo: string = "";
   texto: string = "";
 
+  msjTitulo: string = "";
+  msjTexto: string = "";
+
+
   constructor(private db:ServiciobdService, private storage:StorageService) { }
 
   async ngOnInit() {
@@ -26,7 +30,30 @@ export class ForoAgregarPage implements OnInit {
 
   }
 
+  validarTitulo() {
+    if (this.titulo === '') {
+      this.msjTitulo = 'Debe ingresar un titulo'
+    } else {
+      this.msjTitulo = '';
+    }
+  }
+
+  validarTexto() {
+    if (this.texto === '') {
+      this.msjTexto = 'El contenido del foro es obligatorio';
+    } else {
+      this.msjTexto = '';
+    }
+  }
+
   insertar() {
+    this.validarTitulo();
+    this.validarTexto();
+
+    if (this.msjTitulo !== '' || this.msjTexto !== '') {
+      return;
+    }
+
     this.db.agregarForo(this.titulo, this.texto, this.id);
   }
 

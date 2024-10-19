@@ -136,6 +136,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/resena-detalle/resena-detalle.module').then(m => m.ResenaDetallePageModule)
   },
   {
+    path: 'estrenos',
+    loadChildren: () => import('./pages/estrenos/estrenos.module').then(m => m.EstrenosPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
   },

@@ -73,7 +73,7 @@ export class NoticiasPage implements OnInit {
   }
 
   compartirContenido(noticia: any) {
-    const mensaje = `${noticia.titulo}\n\n${noticia.titular}\n\n${noticia.foto}`;
+    const mensaje = `${noticia.titulo}\n\n${noticia.texto}`;
     const imagen = noticia.foto;
 
     this.socialSharing.share(mensaje, imagen)

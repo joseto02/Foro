@@ -1,15 +1,13 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
       <ion-back-button></ion-back-button>
     </ion-buttons>
-    <ion-title>Api xd</ion-title>
+    <ion-title>Estrenos</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-
   <div *ngFor="let juego of juegos">
     <ion-card>
       <img *ngIf="juego.background_image" alt="Imagen del juego" [src]="juego.background_image" />
@@ -27,6 +25,6 @@
       </ion-card-content>
     </ion-card>
   </div>
-  <ion-button *ngIf="nextPage" (click)="paginaSiguiente()">Cargar más juegos</ion-button>
+  <ion-button color="tertiary" *ngIf="nextPage" (click)="paginaSiguiente()">Cargar más juegos</ion-button>
 
 </ion-content>

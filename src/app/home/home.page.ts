@@ -15,6 +15,8 @@ export class HomePage implements OnInit {
   estadoUsuario: boolean = false;
 
   noticiasRecenly: any = [];
+  forosRecently: any = [];
+  resenaRecently: any = [];
 
   constructor(private storage: StorageService, private db: ServiciobdService) {}
 
@@ -35,7 +37,19 @@ export class HomePage implements OnInit {
           this.noticiasRecenly = res
         })
 
+        this.db.fetchHomeForos().subscribe(res => {
+          this.forosRecently = res;
+        })
+
+        this.db.fetchHomeResenas().subscribe(res => {
+          this.resenaRecently = res;
+        })
       }
+
+      this.db.homeNoticias();
+      this.db.homeForo();
+      this.db.homeResena();
+      
     })
 
     if (!this.estadoUsuario) {
@@ -43,9 +57,5 @@ export class HomePage implements OnInit {
     }
     
   }
-
-
-
-
 
 }

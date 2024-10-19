@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ServicioapiService } from 'src/app/services/servicioapi.service';
 
 @Component({
-  selector: 'app-foro-4',
-  templateUrl: './foro-4.page.html',
-  styleUrls: ['./foro-4.page.scss'],
+  selector: 'app-estrenos',
+  templateUrl: './estrenos.page.html',
+  styleUrls: ['./estrenos.page.scss'],
 })
-export class Foro4Page implements OnInit {
+export class EstrenosPage implements OnInit {
 
   juegos: any = [];
   nextPage: string | null = null;

@@ -71,7 +71,7 @@ export class ServiciobdService {
 
   registroComentario: string = "INSERT OR IGNORE INTO comentario(id_comentario, fecha_comentario, texto, id_usuario, id_foro) VALUES(1, DATE('now'), 'Comentario de foro', 1, 1)";
 
-
+  borrarContenido: string = "DROP TABLE contenido";
 
   //Variable para guardar los datos de las consultas en las tablas
 
@@ -185,6 +185,8 @@ export class ServiciobdService {
       this.seleccionarUsuarioSuspendidos();
       this.mostrarForo();
       this.homeNoticias();
+      this.homeForo();
+      this.homeResena();
 
       //modifico el estado de la base de datos
       this.isBDReady.next(true);
@@ -714,6 +716,43 @@ export class ServiciobdService {
         }
       }
       this.listaHomeNotcias.next(items as any);
+    })
+  }
+
+  homeForo() {
+    return this.conexionBase.executeSql('SELECT f.titulo, u.nickName, f.texto, u.id_usuario, f.id_foro FROM foro f JOIN usuario u ON (f.id_usuario = u.id_usuario) ORDER BY f.id_foro DESC LIMIT 3', []).then(res => {
+      let items: Foro[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++){
+          items.push({
+            id_foro: res.rows.item(i).id_foro,
+            titulo: res.rows.item(i).titulo,
+            autor: res.rows.item(i).nickName,
+            texto: res.rows.item(i).texto,
+            id_usuario: res.rows.item(i).id_usuario
+          })
+        }
+      }
+      this.listaHomeForos.next(items as any);
+    })
+  }
+
+  homeResena() {
+    return this.conexionBase.executeSql('SELECT * FROM contenido WHERE id_tema = 2 ORDER BY id_contenido DESC LIMIT 3', []).then(res => {
+      let items: Contenido[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_contenido: res.rows.item(i).id_contenido,
+            titulo: res.rows.item(i).titulo,
+            titular: res.rows.item(i).titular,
+            texto: res.rows.item(i).texto,
+            foto: res.rows.item(i).foto,
+            id_tema: res.rows.item(i).id_tema
+          })
+        }
+      }
+      this.listaHomeResenas.next(items as any);
     })
   }
 
