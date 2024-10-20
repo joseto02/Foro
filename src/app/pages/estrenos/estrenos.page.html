@@ -15,14 +15,21 @@
         <ion-card-title>{{ juego.name }}</ion-card-title>
       </ion-card-header>
   
-      <ion-card-content>
-        <p>
-          Estreno: {{ juego.released }}
-        </p>
-        <p *ngFor="let plataforma of juego.platforms">
-          {{ plataforma.platform.name }}
-        </p>
-      </ion-card-content>
+      
+      <div class="alinear">
+        <ion-card-content>
+          <p>
+            Estreno: {{ juego.released }}
+          </p>
+          <p *ngFor="let plataforma of juego.platforms">
+        
+            {{ plataforma.platform.name }}
+          </p>
+        </ion-card-content>
+        <ion-button (click)="compartir(juego)" class="btn-custom" fill="clear">
+          <ion-icon name="share-social-outline"></ion-icon>
+        </ion-button>
+      </div>
     </ion-card>
   </div>
   <ion-button color="tertiary" *ngIf="nextPage" (click)="paginaSiguiente()">Cargar más juegos</ion-button>

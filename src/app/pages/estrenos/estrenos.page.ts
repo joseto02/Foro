@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SocialSharing } from '@awesome-cordova-plugins/social-sharing/ngx';
 import { ServicioapiService } from 'src/app/services/servicioapi.service';
 
 @Component({
@@ -11,7 +12,7 @@ export class EstrenosPage implements OnInit {
   juegos: any = [];
   nextPage: string | null = null;
 
-  constructor(private api: ServicioapiService) { }
+  constructor(private api: ServicioapiService, private socialSharing: SocialSharing) { }
 
   ngOnInit() {
     this.cargarJuegos();
@@ -32,5 +33,16 @@ export class EstrenosPage implements OnInit {
       })
     }
   }
+
+  compartir(juego: any) {
+
+    const titulo = juego.name;
+    const slug = juego.slug;
+    const url = `https://rawg.io/games/${slug}`;
+
+    this.socialSharing.share(titulo, '', '', url);
+    
+  }
+
 
 }

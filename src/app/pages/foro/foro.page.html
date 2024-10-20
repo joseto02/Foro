@@ -6,7 +6,7 @@
     </ion-buttons>
     <ion-title>Foro</ion-title>
     <ion-buttons [collapse]="true" slot="end">
-      <ion-button shape="round" color="primary" (click)="agregarTema()">Agregar tema</ion-button>
+      <ion-button color="primary" (click)="agregarTema()">Agregar tema</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -24,7 +24,7 @@
   </ion-header>
   <p *ngIf="msjError" class="error"> {{msjError}} </p>
 
-  <div class="ion-padding">Bienvenido al foro de GamerNest</div>
+  <h1>Bienvenido al foro de GamerNest</h1>
   
   <ion-list *ngFor="let x of arregloForo">
     <ion-item (click)="irForo(x)">

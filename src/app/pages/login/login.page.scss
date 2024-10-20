@@ -10,6 +10,13 @@
   justify-content: center;
   padding: 16px;
 }
+.Register {
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+}
 
 .contraseña{
   color: rgba(253, 236, 0, 0.986);
@@ -26,8 +33,25 @@
   text-decoration: underline;
 }
 
-.error{
+ion-item {
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  transition: border-color 0.3s;
+}
+
+ion-item:hover {
+  border-color: #561db3;
+}
+
+ion-input {
+  padding: 10px;
+}
+
+.error {
   color: red;
-  font-size: 15px;
+  font-size: 14px;
   text-align: center;
+  margin-top: -10px;
+  margin-bottom: 15px;
 }

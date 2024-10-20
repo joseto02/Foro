@@ -140,9 +140,14 @@ const routes: Routes = [
     loadChildren: () => import('./pages/estrenos/estrenos.module').then(m => m.EstrenosPageModule)
   },
   {
+    path: 'moderador',
+    loadChildren: () => import('./pages/moderador/moderador.module').then(m => m.ModeradorPageModule)
+  },
+  {
     path: '**',
     loadChildren: () => import('./pages/notfound/notfound.module').then(m => m.NotfoundPageModule)
   },
+
 
 ];
 

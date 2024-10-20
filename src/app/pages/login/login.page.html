@@ -8,14 +8,13 @@
 </ion-header>
 <ion-content [fullscreen]="true">
   <div class="fondo">
-
-    <ion-list>
+    <ion-list class="Register">
       <ion-item>
         <ion-icon slot="start" name="person-circle-outline"></ion-icon>
         <ion-input [(ngModel)]="nickName" (ngModelChange)="validarUsuario()" label="Usuario:"></ion-input>
       </ion-item>
       <p *ngIf="msjUsuario" class="error"> {{msjUsuario}} </p>
-      
+    
       <ion-item>
         <ion-icon slot="start" name="lock-closed"></ion-icon>
         <ion-input [(ngModel)]="clave" (ngModelChange)="validarContrasena()" type="password" label="Contraseña:">
@@ -23,14 +22,14 @@
         </ion-input>
       </ion-item>
       <p *ngIf="msjContrasena" class="error"> {{msjContrasena}} </p>
-      
+    
     </ion-list>
     
     <ion-label class="contraseña" [routerLink]="['/olvpas']">¿Olvidateste tu contraseña?</ion-label>
     <br>
     <ion-label class="registro" [routerLink]="['/registro']">¿No tienetes cuenta? Registrate aqui</ion-label>
     
-    <ion-button class="ion-padding" (click)="continuar()">Iniciar sesión</ion-button>
-
+    <ion-button class="ion-padding" color="tertiary" (click)="continuar()">Iniciar sesión</ion-button>
+    
   </div>
 </ion-content>

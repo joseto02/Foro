@@ -359,6 +359,15 @@ export class ServiciobdService {
     })
   }
 
+  agregarModerador(nickName: string, correo: string, clave: string) {
+    return this.conexionBase.executeSql('INSERT INTO usuario(nickName, correo, clave, id_rol) VALUES(?,?,?,1);', [nickName, correo, clave]).then(res => {
+      this.presentAlert("Registro", "Se registro correctamente");
+      this.seleccionarUsuario();
+    }).catch(e => {
+      this.presentAlert('Registro', 'Error: ' + JSON.stringify(e));
+    })
+  }
+
   suspenderUsuario(id:string) {
     this.alertaConfirmacion("¿Esta seguro que desea suspender a este usuario?", () => {
       return this.conexionBase.executeSql('UPDATE usuario SET estado = 0 WHERE id_usuario = ?', [id]).then(res => {

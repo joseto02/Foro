@@ -3,11 +3,11 @@ import { AlertController, NavController, ToastController } from '@ionic/angular'
 import { ServiciobdService } from 'src/app/services/serviciobd.service';
 
 @Component({
-  selector: 'app-registro',
-  templateUrl: './registro.page.html',
-  styleUrls: ['./registro.page.scss'],
+  selector: 'app-moderador',
+  templateUrl: './moderador.page.html',
+  styleUrls: ['./moderador.page.scss'],
 })
-export class RegistroPage implements OnInit {
+export class ModeradorPage implements OnInit {
 
   // Variables para el formulario
   nickName: string = '';
@@ -25,14 +25,13 @@ export class RegistroPage implements OnInit {
 
 
   constructor(
-    public alertController: AlertController,
-    public navCtrl: NavController,
-    public toastController: ToastController,
-    private bd:ServiciobdService,
+    private navCtrl: NavController,
+    private toastController: ToastController,
+    private bd: ServiciobdService,
   ) { }
 
   ngOnInit() { }
-  
+
   validarUsuario() {
     if (this.nickName === '') {
       this.mensajeUsuario = 'El nombre de usuario es obligatorio';
@@ -95,7 +94,7 @@ export class RegistroPage implements OnInit {
   }
 
   agregar() {
-    this.bd.agregarUsuario(this.nickName, this.correo, this.clave)
+    this.bd.agregarModerador(this.nickName, this.correo, this.clave);
   }
 
   async continuar() {
@@ -114,12 +113,12 @@ export class RegistroPage implements OnInit {
 
     this.agregar();
     this.presentToast('bottom');
-    this.navCtrl.navigateRoot('/login');
+    this.navCtrl.navigateRoot('/admin');
   }
 
   async presentToast(position: 'top' | 'middle' | 'bottom') {
     const toast = await this.toastController.create({
-      message: 'Se Registro correctamente.',
+      message: 'Moderador se registro correctamente.',
       duration: 1500,
       position: position,
     });
